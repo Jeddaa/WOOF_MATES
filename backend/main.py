@@ -1,12 +1,10 @@
 from fastapi import FastAPI
 from app.database import engine
 from app import models
+from app.routers import user, dogs
 
 app = FastAPI()
+app.include_router(user.router)
+app.include_router(dogs.router)
 
 models.Base.metadata.create_all(engine)
-
-
-@app.get('/')
-def test():
-    return {"message": "Testing Successful"}
