@@ -8,6 +8,7 @@ from sqlalchemy.orm.exc import NoResultFound
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+
 def hash_password(password: str):
     """Hashes the password so as not to store
     the user password plain"""
@@ -28,7 +29,7 @@ class Auth:
     def __init__(self, db: DB):
         """Initializes the class instance"""
         self.db = db
-    
+
     def register_user(self, email: str, username: str, password: str):
         """
         Adds a new validated user to the database
