@@ -3,12 +3,12 @@ Contains the pydantic models for database model
 """
 
 from typing import List, Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class UserBase(BaseModel):
     username: Optional[str]
-    email: Optional[str]
+    email: EmailStr
 
 
 class UserCreate(UserBase):
