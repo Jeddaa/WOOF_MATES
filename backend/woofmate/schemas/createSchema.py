@@ -58,3 +58,6 @@ class LoginUser(BaseModel):
             "password": "password"
         }
         orm_mode=True
+
+class PasswordReset(BaseModel):
+    email: str

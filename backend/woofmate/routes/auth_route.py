@@ -8,7 +8,7 @@ from ..schemas.createSchema import ICreateUser, IUser, LoginUser
 from woofmate.config import settings
 
 auth_router = APIRouter(prefix='/auth',
-                        tags=["user"])
+                        tags=["User Routes"])
 
 # authjwt_secret_key = settings.AUTHJWT_SECRET_KEY
 
@@ -21,25 +21,22 @@ auth_router = APIRouter(prefix='/auth',
 
 @auth_router.post("/signup/", status_code=status.HTTP_201_CREATED)
 async def create_user(newUser: ICreateUser, db: Session = Depends(get_db)):
-    return Services.createUser(db, newUser)
-
-# @auth_router.post("/signup/", status_code=status.HTTP_201_CREATED)
-# async def create_user(newUser: ICreateUser):
-#     return Services.createUser(newUser)
-
+    return await Services.createUser(db, newUser)
 
 @auth_router.post("/login", status_code=status.HTTP_200_OK)
 async def login(user:LoginUser, db:Session=Depends(get_db), Authorize:AuthJWT=Depends()):
-# async def login(user:LoginUser, Authorize:AuthJWT=Depends()):
-    user_to_login = Services.login(db, user)
+    user_to_login = await Services.login(db, user)
     if user_to_login.email == user.email:
         access_token = Authorize.create_access_token(subject=user_to_login.email)
-        refresh_token = Authorize.create_refresh_tokene(subject=user_to_login.email)
-        return {
-            "access":access_token,
-            "refresh":refresh_token
+        refresh_token = Authorize.create_refresh_token(subject=user_to_login.email)
+        response = {
+            "access_token":f"Bearer {access_token}",
+            "refresh_token":f"Bearer {refresh_token}"
         }
 
-        # return jsonable_encoder(response)
+        return jsonable_encoder(response)
+        # return response
 
-
+@auth_router.post('/forgotpassword', status_code=status.HTTP_200_OK)
+async def forgotpassword(email:str,  db:Session=Depends(get_db)):
+    pass

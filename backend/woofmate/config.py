@@ -1,12 +1,10 @@
 from pydantic import BaseSettings
-from pydantic.utils import env_file
+# from pydantic.utils import env_file
 from functools import lru_cache
 
-@env_file
 class Settings(BaseSettings):
     SECRET_KEY: str
-    secret_key: str
-    authjwt_secret_key: str = AUTHJWT_SECRET_KEY
+    # authjwt_secret_key: str
     SQLALCHEMY_DATABASE_URL:str
     AUTHJWT_SECRET_KEY:str
 
