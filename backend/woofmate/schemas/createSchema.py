@@ -1,5 +1,5 @@
-from fastapi import File
-from pydantic import BaseModel
+from fastapi import File, UploadFile
+from pydantic import BaseModel, Field
 from typing import List, Annotated
 from woofmate.schemas.type import Breed, Gender, Relationship
 # from dtos.type import Breed, Gender, Relationship
@@ -12,6 +12,19 @@ class ICreateProfile(BaseModel):
     state: str
     relationshipPreferences: Relationship
     # picture: Annotated[list[bytes], File()]
+    breed: Breed
+    gender: Gender
+    class Config:
+        orm_mode = True
+
+class ICreateTestProfile(BaseModel):
+    username:str
+    age: int
+    city: str
+    state: str
+    relationshipPreferences: Relationship
+    # image: UploadFile = File(..., description='profile picture')
+    image: bytes = Field(..., title="Image file", description="Please upload a JPEG or PNG image.")
     breed: Breed
     gender: Gender
     class Config:

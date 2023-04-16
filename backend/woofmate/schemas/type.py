@@ -1,13 +1,13 @@
 from enum import Enum
 
 class Relationship(str, Enum):
-    Playmate = "playmate"
+    playmate = "Playmate"
     TrainingPartner = "Training Partner"
     BreeddingPartner = "Breedding Partner"
     ServiceDogPartner = "Service Dog Partner"
 
 class Breed(str, Enum):
-    test = "test"
+    Test = "test"
 
 class Gender(str, Enum):
     Male = "Male"

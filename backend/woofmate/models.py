@@ -1,7 +1,7 @@
 from woofmate.database import Base, engine
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, LargeBinary, DateTime, func
 from sqlalchemy.orm import relationship
-from sqlalchemy_utils.types import ChoiceType
+# from sqlalchemy_utils.types import ChoiceType
 
 
 
@@ -20,23 +20,23 @@ class User(Base):
 
 
     def __repr__(self):
-        return f"<Item name={self.firstName} price={self.lastName}>"
+        return f"<First name={self.firstName} Last name={self.lastName}>"
 
 
 class DogProfile(Base):
 
-    GENDER=(
-        ('Male','male'),
-        ('Female','female'),
-    )
-    BREED=(
-        ('Bulldog', 'bulldog'),
-    )
-    RELATIONSHIP_PREFERENCE=(
-        ('Playmate','playmate'),
-        ('Training Partner','training Partner'),
-        ('Breeding Partner','breeding Partner'),
-    )
+    # GENDER=(
+    #     ('Male','male'),
+    #     ('Female','female'),
+    # )
+    # BREED=(
+    #     ('Bulldog', 'bulldog'),
+    # )
+    # RELATIONSHIP_PREFERENCE=(
+    #     ('Playmate','playmate'),
+    #     ('Training Partner','training Partner'),
+    #     ('Breeding Partner','breeding Partner'),
+    # )
 
 
 
@@ -46,14 +46,19 @@ class DogProfile(Base):
 
     email = Column(String, nullable=False)
     age = Column(Integer, nullable=False)
-    gender = Column(ChoiceType(choices=GENDER), nullable=False)
+    gender = Column(String, nullable=False)
     city = Column(String, nullable=False)
     state = Column(String, nullable=False)
     country = Column(String, nullable=False, default='Nigeria')
-    relationshipPreferences = Column(ChoiceType(choices=RELATIONSHIP_PREFERENCE), nullable=False)
-    pictureURL = Column(String, nullable=False)
+    relationshipPreferences = Column(String, nullable=False)
+    pictureURL = Column(String, nullable=False, default="https://cloudinary.com/")
     is_active = Column(Boolean, default=True)
-    breed = Column(ChoiceType(choices=BREED), nullable=False)
+    breed = Column(String, nullable=False)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
-    updatedAt = Column(DateTime(timezone=True), onupdate=func.now())
+    updatedAt = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+
+
+    def __repr__(self):
+        return f"<username={self.username} breed={self.breed}>"
