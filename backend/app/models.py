@@ -4,7 +4,7 @@ Module for the database and tables using sqlalchelmy
 
 from sqlalchemy.orm import relationship
 from sqlalchemy import (
-    Column, String, Integer, Boolean, Text, LargeBinary,
+    CheckConstraint, Column, String, Integer, Boolean, Text, JSON,
     ForeignKey, DateTime
 )
 from sqlalchemy.sql import func
@@ -23,7 +23,8 @@ class User(Base):
     id = Column(Integer, index=True, primary_key=True)
     username = Column(String(100), unique=True, index=True)
     email = Column(String(100), nullable=False, unique=True, index=True)
-    hashed_password = Column(String(100), nullable=False)
+    password = Column(String(100), nullable=False)
+    profile_picture_url = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -48,13 +49,17 @@ class Dog(Base):
     state = Column(String(50), nullable=False)
     country = Column(String(50), nullable=False, default='Nigeria')
     description = Column(Text, nullable=False)
-    relationshipPreferences = Column(String, nullable=False)
-    pictureFilename = Column(String, nullable=False)
-    picture = Column(LargeBinary, nullable=False)
+    relationship_preferences = Column(String, nullable=False)
+    pictures_url = Column(
+    JSON(),
+    CheckConstraint(
+        "json_array_length(pictures_url) = 3"
+    ),
+    nullable=False,
+    default=[]
+)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     owner_id = Column(Integer, ForeignKey('users.id'))
-    owner = relationship(
-        "User", back_populates="dogs", cascade='all, delete-orphan'
-    )
+    owner = relationship("User", back_populates="dogs")

@@ -5,6 +5,7 @@ Authentication module
 from app.database import DB
 from passlib.context import CryptContext
 from sqlalchemy.orm.exc import NoResultFound
+from app import schemas
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -26,32 +27,40 @@ class Auth:
     """
     contains method to handle authentication
     """
-    def __init__(self, db: DB):
+    def __init__(self):
         """Initializes the class instance"""
-        self.db = db
+        self._db = DB()
 
-    def register_user(self, email: str, username: str, password: str):
+    def register_user(self, username, email, password):
         """
         Adds a new validated user to the database
         """
-        try:
-            user = self.db.find_user_by(email=email)
-            if user:
-                raise ValueError(f"User with {email} already exists")
-        except NoResultFound:
-            hashed_password = hash_password(password)
-            return self.db.create_user(
-                username=username,
-                email=email,
-                hashed_password=hashed_password
-            )
+        hashed_password = hash_password(password)
+        return self._db.create_user(
+            username=username,
+            email=email,
+            password=hashed_password
+        )
+        # try:
+        #     print(self.db)
+        #     user = self.db.find_user_by(db=self.db, email=email)
+        #     print(user)
+        #     if user:
+        #         raise ValueError(f"User with {email} already exists")
+        # except NoResultFound:
+        #     hashed_password = hash_password(password)
+        #     return self.db.create_user(
+        #         username=username,
+        #         email=email,
+        #         hashed_password=hashed_password
+        #     )
 
     def authenticate_user(self, email: str, password: str):
         """
         Authenticates user's login credentials and returns user
         """
         try:
-            user = self.db.find_user_by(email=email)
+            user = self._db.find_user_by(email=email)
             if not verify_password(password, user.hashed_password):
                 raise ValueError("Invalid password")
             return user

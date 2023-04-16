@@ -4,10 +4,11 @@ to cloudinary in order to store the image url
 """
 
 from app.config import settings
+import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
 from fastapi import File, UploadFile
-from typing import Optional
+from typing import Annotated, Optional
 import logging
 
 cloudinary.config(
@@ -18,13 +19,19 @@ cloudinary.config(
 )
 
 
-def upload_image_to_cloudinary(file: UploadFile) -> Optional[str]:
+async def upload_image_to_cloudinary(
+    foldername: str, file: Annotated[bytes, File()],
+    username: str, field_name: str,
+) -> Optional[str]:
     """
     Uploads an image to Cloudinary and returns the public URL.
     Returns None if there was an error uploading the image.
     """
     try:
-        result = upload(file.file)
+        result = upload(
+            file,
+            public_id=f'{foldername}/{username}_{field_name}'
+        )
         url, options = cloudinary_url(
             result['public_id'],
             format=result['format'],
@@ -32,5 +39,5 @@ def upload_image_to_cloudinary(file: UploadFile) -> Optional[str]:
         )
         return url
     except Exception as e:
-        logging.exception("Error: %s", str(e))
+        logging.exception("Cloudinary_Error: %s", str(e))
         return None

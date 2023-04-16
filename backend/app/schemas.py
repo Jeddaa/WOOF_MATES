@@ -2,24 +2,27 @@
 Contains the pydantic models for database model
 """
 
+from datetime import datetime
 from typing import List, Optional
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, HttpUrl, validator, conlist
 
 
 class UserBase(BaseModel):
-    username: Optional[str]
+    username: str
     email: EmailStr
+    profile_picture_url: HttpUrl
 
 
 class UserCreate(UserBase):
-    hashed_password: str
+    password: str
 
 
 class User(UserBase):
     id: int
     is_active: bool
-    created_at: Optional[str]
-    updated_at: Optional[str]
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
+    # dogs: List["Dog"] = []
 
     class Config:
         orm_mode = True
@@ -32,34 +35,26 @@ class DogBase(BaseModel):
     breed: str
     city: str
     state: str
-    country: Optional[str] = "Nigeria"
+    country: str
     description: str
     relationshipPreferences: str
-    pictureFilename: str
-    picture: bytes
+    pictures_url: List[HttpUrl]
+
+    @validator('pictures_url')
+    def validate_pictures(cls, v):
+        return conlist(HttpUrl)(v)
 
 
 class DogCreate(DogBase):
     owner_id: int
 
 
-class DogUpdate(DogBase):
-    pass
-
-
 class Dog(DogBase):
     id: int
     is_active: bool
-    created_at: Optional[str]
-    updated_at: Optional[str]
-    owner: Optional[User]
-
-    class Config:
-        orm_mode = True
-
-
-class UserWithDogs(User):
-    dogs: List[Dog] = []
+    created_at: datetime
+    updated_at: datetime
+    owner: User
 
     class Config:
         orm_mode = True
