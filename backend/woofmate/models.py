@@ -15,12 +15,15 @@ class User(Base):
     hashed_password = Column(String)
     is_active = Column(Boolean, default=True)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
-    updatedAt = Column(DateTime(timezone=True), onupdate=func.now())
-    profile = relationship('Profile', backref='users', cascade='all, delete-orphan')
+    updatedAt = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
+    dogProfile_id = relationship('DogProfile', backref='users', cascade='all, delete-orphan')
 
 
+    def __repr__(self):
+        return f"<Item name={self.firstName} price={self.lastName}>"
 
-class Profile(Base):
+
+class DogProfile(Base):
 
     GENDER=(
         ('Male','male'),
@@ -37,7 +40,7 @@ class Profile(Base):
 
 
 
-    __tablename__= 'profiles'
+    __tablename__= 'dogprofile'
     id = Column(Integer, primary_key=True)
     username = Column(String, nullable=False, unique=True)
 
@@ -48,10 +51,9 @@ class Profile(Base):
     state = Column(String, nullable=False)
     country = Column(String, nullable=False, default='Nigeria')
     relationshipPreferences = Column(ChoiceType(choices=RELATIONSHIP_PREFERENCE), nullable=False)
-    pictureFilename = Column(String, nullable=False)
-    picture = Column(LargeBinary, nullable=False)
+    pictureURL = Column(String, nullable=False)
     is_active = Column(Boolean, default=True)
     breed = Column(ChoiceType(choices=BREED), nullable=False)
     createdAt = Column(DateTime(timezone=True), server_default=func.now())
     updatedAt = Column(DateTime(timezone=True), onupdate=func.now())
-    user = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)

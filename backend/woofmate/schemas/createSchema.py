@@ -1,5 +1,6 @@
+from fastapi import File
 from pydantic import BaseModel
-
+from typing import List, Annotated
 from woofmate.schemas.type import Breed, Gender, Relationship
 # from dtos.type import Breed, Gender, Relationship
 
@@ -9,17 +10,25 @@ class ICreateProfile(BaseModel):
     age: int
     city: str
     state: str
-    RelationshipPreferences: Relationship
-    pictureFilename: str
-    picture: bytes
+    relationshipPreferences: Relationship
+    # picture: Annotated[list[bytes], File()]
     breed: Breed
     gender: Gender
+    class Config:
+        orm_mode = True
 
 
 
-class IProfile(ICreateProfile):
-    # id: int
-    user: int
+class IProfile(BaseModel):
+    user_id: int
+    username:str
+    age: int
+    city: str
+    state: str
+    RelationshipPreferences: Relationship
+    breed: Breed
+    gender: Gender
+    pictureFilename: str
 
     class Config:
         orm_mode = True
@@ -40,11 +49,12 @@ class ICreateUser(BaseModel):
         orm_mode = True
 
 
-class IUser(ICreateUser):
-    # id: int
+class IUser(BaseModel):
+    firstName:str
+    lastName:str
+    email: str
     is_active: bool
-    profiles: list[IProfile] = []
-
+    dogprofiles: List[IProfile] = []
     class Config:
         orm_mode = True
 

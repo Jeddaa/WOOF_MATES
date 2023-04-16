@@ -8,6 +8,7 @@ from fastapi.openapi.utils import get_openapi
 from fastapi import FastAPI
 from woofmate.database import engine, Base
 from woofmate.routes.auth_route import auth_router
+from woofmate.routes.dogProfile_route import dogProfile_router
 from woofmate.config import Settings
 
 
@@ -79,6 +80,7 @@ def get_config():
     return Settings()
 
 app.include_router(auth_router)
+app.include_router(dogProfile_router)
 
 if __name__ == "__main__":
     import uvicorn
