@@ -32,3 +32,13 @@ async def create_profile(profile_id: int, dog_images: Annotated[list[bytes], Fil
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid authorization")
     current_user = Authorize.get_jwt_subject()
     return await DogServices.upload_dog_images(db, profile_id, dog_images, current_user)
+
+@dogProfile_router.get("/get_all_profile_by_user/", response_model= List[ICreateProfile], status_code=status.HTTP_201_CREATED)
+async def get_all_dog_profile(db: Session = Depends(get_db), Authorize:AuthJWT=Depends()):
+    try:
+        Authorize.jwt_required()
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid authorization")
+    current_user = Authorize.get_jwt_subject()
+    print("trial")
+    return await DogServices.get_allProfiles_of_user(db, current_user)

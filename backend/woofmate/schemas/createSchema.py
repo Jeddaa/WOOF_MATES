@@ -11,7 +11,6 @@ class ICreateProfile(BaseModel):
     city: str
     state: str
     relationshipPreferences: Relationship
-    # picture: Annotated[list[bytes], File()]
     breed: Breed
     gender: Gender
     class Config:

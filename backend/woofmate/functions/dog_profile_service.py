@@ -29,7 +29,6 @@ class DogServices:
     async def upload_dog_images(db, id, dog_images, current_user):
         get_user = UserServices.get_one_user(db, email=current_user)
         confirm_profile = DogServices.get_one_profile(db, id=id)
-        print(confirm_profile)
         if get_user.id == confirm_profile.user_id:
             print(type(dog_images))
             if len(dog_images) != 3:
@@ -46,3 +45,8 @@ class DogServices:
             return jsonable_encoder({"message": "images uploaded successfully"})
 
         return jsonable_encoder({"message": "kindly login and try again"})
+
+    async def get_allProfiles_of_user(db, current_user):
+        get_user = UserServices.get_one_user(db, email=current_user)
+        get_all_profiles = db.query(DogProfile).filter_by(user_id=get_user.id).all()
+        return get_all_profiles
