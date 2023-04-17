@@ -1,5 +1,5 @@
 from fastapi import File, UploadFile
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, EmailStr, HttpUrl
 from typing import List, Annotated
 from woofmate.schemas.type import Breed, Gender, Relationship
 # from dtos.type import Breed, Gender, Relationship
@@ -23,7 +23,9 @@ class ICreateTestProfile(BaseModel):
     state: str
     relationshipPreferences: Relationship
     # image: UploadFile = File(..., description='profile picture')
-    image: bytes = Field(..., title="Image file", description="Please upload a JPEG or PNG image.")
+    image: bytes = Field(
+        ..., title="Image file", description="Please upload a JPEG or PNG image."
+    )
     breed: Breed
     gender: Gender
     class Config:
@@ -49,7 +51,7 @@ class IProfile(BaseModel):
 class ICreateUser(BaseModel):
     firstName:str
     lastName:str
-    email: str
+    email: EmailStr
     password: str
     class Config:
         schema_extra={
@@ -64,7 +66,8 @@ class ICreateUser(BaseModel):
 class IUser(BaseModel):
     firstName:str
     lastName:str
-    email: str
+    email: EmailStr
+    profile_picture: HttpUrl
     is_active: bool
     dogprofiles: List[IProfile] = []
     class Config:
@@ -72,7 +75,7 @@ class IUser(BaseModel):
 
 
 class LoginUser(BaseModel):
-    email:str
+    email:EmailStr
     password:str
     class Config:
         schema_extra={
@@ -82,4 +85,4 @@ class LoginUser(BaseModel):
         orm_mode=True
 
 class PasswordReset(BaseModel):
-    email: str
+    email: EmailStr

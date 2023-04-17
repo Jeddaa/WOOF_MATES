@@ -1,6 +1,8 @@
 from pydantic import BaseSettings
-# from pydantic.utils import env_file
+from dotenv import load_dotenv
 from functools import lru_cache
+
+load_dotenv()
 
 class Settings(BaseSettings):
     SECRET_KEY: str

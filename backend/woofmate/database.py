@@ -9,7 +9,7 @@ from sqlalchemy.orm.session import Session
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import InvalidRequestError
 
-engine = create_engine(settings.SQLALCHEMY_DATABASE_URL, echo=True)
+engine = create_engine(settings.SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
