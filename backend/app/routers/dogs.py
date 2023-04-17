@@ -59,7 +59,6 @@ async def create_dog_for_user(
     if not existing_user:
         raise HTTPException(status_code=404, detail="Owner not found")
     user_id = existing_user.id
-    print(user_id)
 
     if len(dog_images) != 3:
         raise HTTPException(status_code=400, detail="Please upload 3 images")
