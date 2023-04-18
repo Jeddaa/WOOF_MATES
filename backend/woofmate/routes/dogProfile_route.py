@@ -10,8 +10,10 @@ from woofmate.config import settings
 from typing import Annotated, List
 from woofmate.models import User
 
-dogProfile_router = APIRouter(prefix='/profile',
-                        tags=["Dog Profile Routes"])
+dogProfile_router = APIRouter(
+    prefix='/profile',
+    tags=["Dog Profile Routes"]
+)
 
 
 @dogProfile_router.post("/create_dog_profile/", status_code=status.HTTP_201_CREATED)

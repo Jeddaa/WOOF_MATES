@@ -1,9 +1,13 @@
-from fastapi.encoders import jsonable_encoder
+"""
+User services models:
+contains all the methods related to the users
+"""
+
 from fastapi import HTTPException, Depends
-from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.orm import Session
+from werkzeug.security import generate_password_hash, check_password_hash
 from woofmate.schemas.createSchema import ICreateUser, LoginUser, PasswordReset
-from woofmate.models import User, DogProfile
+from woofmate.models import User
 
 
 class UserServices:
@@ -21,30 +25,56 @@ class UserServices:
         return users
 
     def get_one_user(self, db, **kwargs):
+        """
+        Get a single user from the database
+        """
         user = db.query(User).filter_by(**kwargs).first()
         return user
 
-    async def createUser(self, db: Session, user: ICreateUser):
-        check_email = self.get_one_user(db, email=user.email)
-        if check_email is not None:
-            raise HTTPException(status_code=400, detail="Email address already in use")
-        password = generate_password_hash(user.password)
+    async def createUser(
+        self, db: Session, firstName: str, lastName: str,
+        email: str, password: str, profile_picture_url: str
+    ):
+        """
+        A method to create and store a new user to database
+        with the required fields
+        """
+        check_email = self.get_one_user(db, email=email)
+        if check_email:
+            raise HTTPException(
+                status_code=400, detail="Email address already in use"
+            )
+
+        password = generate_password_hash(password)
         new_user = User(
-            email=user.email,
+            firstName=firstName,
+            lastName=lastName,
+            email=email,
             hashed_password=password,
-            firstName=user.firstName,
-            lastName=user.lastName
+            profile_picture=profile_picture_url
         )
         db.add(new_user)
         db.commit()
         db.refresh(new_user)
-        return jsonable_encoder({"message": "New account created successfully"})
+
+        return {'message': 'User created successfully'}
 
     async def login(self, db: Session, user: LoginUser):
-        check_email = db.query(User).filter(User.email == user.email).first()
+        """
+        Method to login a user and check if the email and password
+        are valid
+        """
+        check_email = self.get_one_user(db, email=user.email)
+
         if check_email is None:
-            raise HTTPException(status_code=400, detail="Invalid email address")
-        password = check_password_hash(check_email.hashed_password, user.password)
+            raise HTTPException(
+                status_code=400, detail="Invalid email address"
+                )
+
+        password = check_password_hash(
+            check_email.hashed_password, user.password
+        )
+
         if password is False:
             raise HTTPException(status_code=400, detail="Invalid password")
         return check_email

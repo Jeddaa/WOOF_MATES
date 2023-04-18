@@ -8,33 +8,59 @@ from woofmate.functions.user_service import UserServices
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
 
 
-
-
 class DogServices:
-    def get_one_profile(db, **kwargs):
+    def get_one_profile(self, db, **kwargs):
+        """
+        Method to get one profile from the database depending on the
+        search criteria e.g id, email, etc
+        """
         profile = db.query(DogProfile).filter_by(**kwargs).first()
         return profile
 
-    async def createDog(db, dogProfile: ICreateProfile, current_user: str):
+    async def createDog(self, db, dogProfile: ICreateProfile, current_user: str):
+        """
+        Method to create a new dog profile and save it to the database
+        only if the user is logged in.
+        """
         get_user = UserServices.get_one_user(db, email=current_user)
         if get_user is None:
-            raise HTTPException(status_code=400, detail="Please Log in to your account")
-        new_profile = DogProfile(**dogProfile.dict(), email=f"{get_user.email}",user_id=f"{get_user.id}")
+            raise HTTPException(
+                status_code=400,
+                detail="Please Log in to your account"
+            )
+
+        new_profile = DogProfile(
+            **dogProfile.dict(),
+            email=f"{get_user.email}",
+            user_id=f"{get_user.id}"
+        )
+
         db.add(new_profile)
         db.commit()
         db.refresh(new_profile)
         return new_profile.id
         # return jsonable_encoder({"message": "New profile created successfully"})
 
-    async def upload_dog_images(db, id, dog_images, current_user):
+    async def upload_dog_images(self, db, id, dog_images, current_user):
+        """
+        Method to upload images to cloudinary and save the url to the database
+        """
         get_user = UserServices.get_one_user(db, email=current_user)
         confirm_profile = DogServices.get_one_profile(db, id=id)
+
         if get_user.id == confirm_profile.user_id:
-            print(type(dog_images))
+            # Validate the number of images uploaded
             if len(dog_images) != 3:
                 raise HTTPException(status_code=400, detail="Please upload 3 images")
-            dogURL = [await upload_image_to_cloudinary( 'WOOF_MATES_DOGS', image, f'{get_user.firstName} {get_user.lastName}','dog_image') for image in dog_images
-                    ]
+            dogURL = [await upload_image_to_cloudinary(
+                'WOOF_MATES_DOGS',
+                image,
+                f'{get_user.firstName} {get_user.lastName}',
+                'dog_image'
+                ) for image in dog_images
+            ]
+
+            # Checks that all images were uploaded successfully
             if not dogURL:
                 raise HTTPException(
                 status_code=500,
@@ -46,7 +72,11 @@ class DogServices:
 
         return jsonable_encoder({"message": "kindly login and try again"})
 
-    async def get_allProfiles_of_user(db, current_user):
+    async def get_allProfiles_of_user(self, db, current_user):
+        """
+        Method to get all the profiles of a user after validating that
+        the user is logged in and the current user is the owner of the dog
+        """
         get_user = UserServices.get_one_user(db, email=current_user)
         get_all_profiles = db.query(DogProfile).filter_by(user_id=get_user.id).all()
         return get_all_profiles

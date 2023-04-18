@@ -22,9 +22,12 @@ Location = [
       'Umu Nneochi',
     ],
   },
+
   {
     'state': 'Adamawa',
-    'senatorial_districts': ['Adamawa Central', 'Adamawa North', 'Adamawa South'],
+    'senatorial_districts': [
+      'Adamawa Central', 'Adamawa North', 'Adamawa South'
+    ],
     'lgas': [
       'Demsa',
       'Fufure',
@@ -89,9 +92,12 @@ Location = [
       'Uyo',
     ],
   },
+
   {
     'state': 'Anambra',
-    'senatorial_districts': ['Anambra Central', 'Anambra North', 'Anambra South'],
+    'senatorial_districts': [
+      'Anambra Central', 'Anambra North', 'Anambra South'
+    ],
     'lgas': [
       'Aguata',
       'Anambra East',
@@ -116,9 +122,12 @@ Location = [
       'Oyi',
     ],
   },
+
   {
     'state': 'Bauchi',
-    'senatorial_districts': ['Bauchi Central', 'Bauchi North', 'Bauchi South'],
+    'senatorial_districts': [
+      'Bauchi Central', 'Bauchi North', 'Bauchi South'
+    ],
     'lgas': [
       'Alkaleri',
       'Bauchi',
@@ -208,9 +217,12 @@ Location = [
       'Shani',
     ],
   },
+
   {
     'state': 'Bayelsa',
-    'senatorial_districts': ['Bayelsa Central', 'Bayelsa East', 'Bayelsa West'],
+    'senatorial_districts': [
+      'Bayelsa Central', 'Bayelsa East', 'Bayelsa West'
+    ],
     'lgas': [
       'Brass',
       'Ekeremor',
@@ -604,9 +616,12 @@ Location = [
       'Yagba-West',
     ],
   },
+
   {
     'state': 'Katsina',
-    'senatorial_districts': ['Katsina Central', 'Katsina North', 'Katsina South'],
+    'senatorial_districts': [
+      'Katsina Central', 'Katsina North', 'Katsina South'
+    ],
     'lgas': [
       'Bakori',
       'Batagarawa',
@@ -644,6 +659,7 @@ Location = [
       'Zango',
     ],
   },
+
   {
     'state': 'Kwara',
     'senatorial_districts': ['Kwara Central', 'Kwara North', 'Kwara South'],
@@ -871,9 +887,12 @@ Location = [
       'Surulere',
     ],
   },
+
   {
     'state': 'Plateau',
-    'senatorial_districts': ['Plateau Central', 'Plateau North', 'Plateau South'],
+    'senatorial_districts': [
+      'Plateau Central', 'Plateau North', 'Plateau South'
+    ],
     'lgas': [
       'Barkin-Ladi',
       'Bassa',
@@ -896,7 +915,9 @@ Location = [
   },
   {
     'state': 'Rivers',
-    'senatorial_districts': ['Rivers East', 'Rivers South East', 'Rivers West'],
+    'senatorial_districts': [
+      'Rivers East', 'Rivers South East', 'Rivers West'
+    ],
     'lgas': [
       'Aboa/Odual',
       'Ahoada-East',
@@ -1000,7 +1021,9 @@ Location = [
   },
   {
     'state': 'Zamfara',
-    'senatorial_districts': ['Zamfara Central', 'Zamfara North', 'Zamfara West'],
+    'senatorial_districts': [
+      'Zamfara Central', 'Zamfara North', 'Zamfara West'
+    ],
     'lgas': [
       'Anka',
       'Bakura',
@@ -1017,4 +1040,4 @@ Location = [
       'Zurmi',
     ],
   },
-];
+]

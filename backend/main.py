@@ -1,11 +1,11 @@
-from pydantic import BaseModel
 from fastapi_jwt_auth import AuthJWT
 from fastapi import FastAPI
-import inspect, re
 from fastapi import FastAPI
 from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 from fastapi import FastAPI
+import inspect
+import re
 from woofmate.database import engine, Base
 from woofmate.routes.auth_route import auth_router
 from woofmate.routes.dogProfile_route import dogProfile_router
@@ -27,15 +27,16 @@ async def shutdown():
     # other shutdown tasks here, such as closing database connections
     pass
 
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
 
     openapi_schema = get_openapi(
-        title = "WOOFMATES API",
-        version = "1.0",
-        description = "An API Woofmates: dating sites for dogs",
-        routes = app.routes,
+        title="WOOFMATES API",
+        version="1.0",
+        description="An API Woofmates: dating sites for dogs",
+        routes=app.routes,
     )
 
     openapi_schema["components"]["securitySchemes"] = {
@@ -43,7 +44,8 @@ def custom_openapi():
             "type": "apiKey",
             "in": "header",
             "name": "Authorization",
-            "description": "Enter: **'Bearer &lt;JWT&gt;'**, where JWT is the access token"
+            "description": "Enter: **'Bearer &lt;JWT&gt;'**, \
+            where JWT is the access token"
         }
     }
 
@@ -52,7 +54,7 @@ def custom_openapi():
 
     for route in api_router:
         path = getattr(route, "path")
-        endpoint = getattr(route,"endpoint")
+        endpoint = getattr(route, "endpoint")
         methods = [method.lower() for method in getattr(route, "methods")]
 
         for method in methods:
@@ -78,6 +80,7 @@ app.openapi = custom_openapi
 @AuthJWT.load_config
 def get_config():
     return Settings()
+
 
 app.include_router(auth_router)
 app.include_router(dogProfile_router)
