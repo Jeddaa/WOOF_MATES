@@ -3,10 +3,12 @@ from sqlalchemy import (
     Column, Integer, String, Boolean, ForeignKey, DateTime, Text, func
 )
 from sqlalchemy.orm import relationship
-# from sqlalchemy_utils.types import ChoiceType
 
 
 class User(Base):
+    """
+    contains the models and attributes for the user
+    """
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -27,21 +29,11 @@ class User(Base):
 
 
 class DogProfile(Base):
-
-    # GENDER=(
-    #     ('Male','male'),
-    #     ('Female','female'),
-    # )
-    # BREED=(
-    #     ('Bulldog', 'bulldog'),
-    # )
-    # RELATIONSHIP_PREFERENCE=(
-    #     ('Playmate','playmate'),
-    #     ('Training Partner','training Partner'),
-    #     ('Breeding Partner','breeding Partner'),
-    # )
-
+    """
+    Contains the models and attributes for the dog profile 
+    """
     __tablename__ = 'dogprofile'
+
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
     age = Column(Integer, nullable=False)

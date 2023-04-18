@@ -62,7 +62,7 @@ async def create_user(
     )
 
     if not profile_image_url:
-        raise HTTPException(status_code=500, detail="Failed to upload image")
+        raise HTTPException(status_code=500, detail="Failed to upload Image")
 
     # Creates the user with the image url
     user = await UserServices.createUser(
