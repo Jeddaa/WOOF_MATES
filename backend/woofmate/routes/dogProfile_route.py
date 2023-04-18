@@ -49,7 +49,7 @@ async def create_profile(
     # not larger than 1MB
     if not dog_image_1:
         raise HTTPException(
-            status_code=400, detail="Profile picture is required"
+            status_code=400, detail="Dog image 1 is required"
         )
 
     if len(dog_image_1) > 1000000:
@@ -60,7 +60,7 @@ async def create_profile(
 
     if not dog_image_2:
         raise HTTPException(
-            status_code=400, detail="Profile picture is required"
+            status_code=400, detail="Dog image 2 is required"
         )
 
     if len(dog_image_2) > 1000000:
@@ -71,7 +71,7 @@ async def create_profile(
 
     if not dog_image_3:
         raise HTTPException(
-            status_code=400, detail="Profile picture is required"
+            status_code=400, detail="Dog image 3 is required"
         )
 
     if len(dog_image_3) > 1000000:
@@ -81,21 +81,21 @@ async def create_profile(
         )
 
     dog_image_1_url = await upload_image_to_cloudinary(
-        'WOOF_MATES_DOGS', dog_image_1, current_user, 'dog_image'
+        'WOOF_MATES_DOGS', dog_image_1, current_user, 'dog_image_1'
     )
 
     if not dog_image_1_url:
         raise HTTPException(status_code=500, detail="Failed to upload Image 1")
 
     dog_image_2_url = await upload_image_to_cloudinary(
-        'WOOF_MATES_DOGS', dog_image_2, current_user, 'dog_image'
+        'WOOF_MATES_DOGS', dog_image_2, current_user, 'dog_image_2'
     )
 
     if not dog_image_2_url:
         raise HTTPException(status_code=500, detail="Failed to upload Image 2")
 
     dog_image_3_url = await upload_image_to_cloudinary(
-        'WOOF_MATES_DOGS', dog_image_3, current_user, 'dog_image'
+        'WOOF_MATES_DOGS', dog_image_3, current_user, 'dog_image_3'
     )
 
     if not dog_image_3_url:
@@ -112,7 +112,7 @@ async def create_profile(
 @dogProfile_router.get(
     "/get_all_profile_by_user",
     response_model=List[ICreateProfile],
-    status_code=status.HTTP_201_CREATED
+    status_code=status.HTTP_200_OK
 )
 async def get_all_dog_profile(
     skip: int = 0, limit: int = 20,
