@@ -55,13 +55,17 @@ class DogServices:
 
         return ({"message": "New dog created successfully"})
 
-    async def get_allProfiles_of_user(self, db: Session, current_user):
+    async def get_allProfiles_of_user(
+        self, db: Session, current_user, skip: int, limit: int = 20
+    ):
         """
         Method to get all the profiles of a user after validating that
         the user is logged in and the current user is the owner of the dog
         """
         get_user = UserServices.get_one_user(db, email=current_user)
         get_all_profiles = (
-            db.query(DogProfile).filter_by(user_id=get_user.id).all()
+            db.query(DogProfile).filter_by(
+                user_id=get_user.id
+            ).offset(skip).limit(limit).all()
         )
         return get_all_profiles

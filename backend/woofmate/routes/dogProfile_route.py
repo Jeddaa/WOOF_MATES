@@ -115,9 +115,13 @@ async def create_profile(
     status_code=status.HTTP_201_CREATED
 )
 async def get_all_dog_profile(
+    skip: int = 0, limit: int = 20,
     db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
 ):
-    """Gets all the dog profiles of the user"""
+    """
+    Gets all the dog profiles of the user characterised by the
+    skip and limit parameters to paginate the data
+    """
     try:
         Authorize.jwt_required()
 
@@ -128,4 +132,7 @@ async def get_all_dog_profile(
         )
 
     current_user = Authorize.get_jwt_subject()
-    return await DogServices.get_allProfiles_of_user(db, current_user)
+    dog_profiles = await DogServices.get_allProfiles_of_user(
+        db, current_user, skip=skip, limit=limit
+    )
+    return dog_profiles
