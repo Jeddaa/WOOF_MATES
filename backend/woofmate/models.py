@@ -11,7 +11,7 @@ class User(Base):
     """
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, index=True)
     firstName = Column(String, nullable=False)
     lastName = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True, index=True)
@@ -20,8 +20,8 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    dogProfile_id = relationship(
-        'DogProfile', backref='users', cascade='all, delete-orphan'
+    dogProfiles = relationship(
+        'DogProfile', back_populates='owner', cascade='all, delete-orphan'
     )
 
     def __repr__(self):
@@ -32,10 +32,10 @@ class DogProfile(Base):
     """
     Contains the models and attributes for the dog profile 
     """
-    __tablename__ = 'dogprofile'
+    __tablename__ = 'dogprofiles'
 
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False, unique=True)
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False, index=True)
     age = Column(Integer, nullable=False)
     gender = Column(String, nullable=False)
     breed = Column(String, nullable=False)
@@ -50,8 +50,9 @@ class DogProfile(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    owner_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    owner = relationship('User', back_populates='dogProfiles')
 
     def __repr__(self):
         """Official string representation of the DogProfile class."""
-        return f"<username={self.username} breed={self.breed}>"
+        return f"<name={self.name} breed={self.breed}>"

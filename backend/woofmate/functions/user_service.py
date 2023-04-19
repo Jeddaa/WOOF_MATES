@@ -80,6 +80,16 @@ class UserServices:
             raise HTTPException(status_code=400, detail="Invalid password")
         return check_email
 
+    async def get_full_profiles(self, db: Session, current_user: str):
+        """
+        Method to get all the profiles of a user
+        """
+        user = self.get_one_user(db, email=current_user)
+        if user is not None:
+            return user.dogProfiles
+        else:
+            return {'message': 'No profiles found'}
+
     # async def forgotPassword(self, db: Session, user_email:PasswordReset):
     #     user = db.query(User).filter(User.email == user_email).first()
     #     if user is not None:

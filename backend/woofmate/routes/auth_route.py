@@ -134,3 +134,8 @@ async def get_one_user(user_id: int, db: Session = Depends(get_db)):
             status_code=status.HTTP_404_NOT_FOUND, detail="User not found"
         )
     return user
+
+
+# @auth_router.get('/user_with_dogs_profile')
+# async def (email: str, db: Session = Depends(get_db)):
+#     pass

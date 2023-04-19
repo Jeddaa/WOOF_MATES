@@ -33,8 +33,8 @@ class DogServices:
         Method to create a new dog profile and save it to the database
         only if the user is logged in.
         """
-        get_user = UserServices.get_one_user(db, email=current_user)
-        if not get_user:
+        currentUser = UserServices.get_one_user(db, email=current_user)
+        if not currentUser:
             raise HTTPException(
                 status_code=400,
                 detail="Please Log in to your account"
@@ -45,16 +45,17 @@ class DogServices:
             description=description, city=city, state=state,
             country=country, relationship_preferences=relationship_preferences,
             dog_image_1=dog_image_1_url, dog_image_2=dog_image_2_url,
-            dog_image_3=dog_image_3_url, user_id=f'{get_user.id}'
+            dog_image_3=dog_image_3_url, owner_id=f'{currentUser.id}'
         )
 
         db.add(new_dog_profile)
         db.commit()
+        currentUser.dogProfiles.append(new_dog_profile)
         db.refresh(new_dog_profile)
 
         return ({"message": "New dog created successfully"})
 
-    async def get_allProfiles_of_user(
+    async def get_dog_profiles_of_user(
         self, db: Session, current_user, skip: int, limit: int = 20
     ):
         """
@@ -64,7 +65,7 @@ class DogServices:
         get_user = UserServices.get_one_user(db, email=current_user)
         get_all_profiles = (
             db.query(DogProfile).filter_by(
-                user_id=get_user.id
+                owner_id=get_user.id
             ).offset(skip).limit(limit).all()
         )
         return get_all_profiles
