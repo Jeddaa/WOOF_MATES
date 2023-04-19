@@ -5,7 +5,6 @@ from woofmate.schemas.createSchema import (
 )
 from woofmate.models import DogProfile
 from woofmate.functions.user_service import UserServices
-from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
 
 UserServices = UserServices()
 

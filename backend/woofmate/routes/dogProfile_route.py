@@ -27,7 +27,7 @@ async def create_profile(
     dog_image_2: Annotated[bytes, File()],
     dog_image_3: Annotated[bytes, File()],
     name: str = Form(...), age: str = Form(...), gender: str = Form(...),
-    breed: str = Form(...), description: str = Form(...),
+    breed: str = Form(...), description: str = Form(default=None),
     city: str = Form(...), state: str = Form(...), country: str = Form(...),
     relationship_preferences: str = Form(...),
     db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
