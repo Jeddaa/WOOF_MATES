@@ -1,0 +1,568 @@
+:root {
+  --pry: rgba(58,198,177);
+  --pry2: rgba(136, 255, 255, 0.5);
+  --pry3: rgba(206, 255, 255);
+  --sec: rgb(255,133,46);
+  --sec2: white;
+}
+
+/* Navbar */
+
+.btn {
+  transition: 0.5s;
+}
+
+#btnn {
+  width: 10em;
+  margin-right: 2em;
+}
+
+.btn:hover,
+.about_link:hover {
+  background-color: var(--pry) !important;
+  color: black !important;
+  border: solid 0.5px black;
+  border: none;
+  box-shadow: 0em 0.1em rgb(223, 223, 223);
+}
+
+#btnn:hover {
+  background-color: var(--pry) !important;
+  color: black !important;
+  padding: 0.7em !important;
+  border: solid 0.5px black;
+  border: none;
+  box-shadow: 0em 0.1em rgb(223, 223, 223);
+}
+
+.nav_bar {
+  width: 100vw;
+  text-decoration: none;
+  margin: 0 auto;
+  position: fixed;
+  top: 0;
+  z-index: 5;
+}
+
+.nav_b {
+  max-width: 1296px;
+  margin: 0 AUTO;
+}
+
+.nav-options {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1em;
+  /* transition: 3s; */
+}
+
+.close ion-icon {
+  position: absolute;
+  top: 7%;
+  right: 5%;
+  z-index: 2;
+}
+
+.Nav_ {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 1em;
+}
+
+.Nav_ li {
+  width: 100%;
+  padding: 0.5em;
+}
+
+.nav_link {
+  width: 130%;
+  margin: auto;
+  color: black;
+  transition: 0.3s;
+  display: grid;
+  place-items: center;
+  border-bottom: solid 0.1px black;
+}
+
+#nav_link {
+  /* width: 100%; */
+}
+
+.nav_link:hover {
+  border-bottom: solid 0.1px var(--pry);
+  color: var(--pry2);
+}
+
+.active {
+  background: var(--pry);
+  padding: 0.2em 1em;
+  border: none;
+  border-radius: 2em;
+  box-shadow: 0em 0.1em rgb(223, 223, 223);
+  transition: 0.3s;
+}
+
+.logo {
+  width: 100%;
+  max-width: 150px;
+  height: auto;
+}
+
+.Nav_1 {
+  /* width: 40vw; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50vw;
+  max-width: 400px;
+  margin: auto;
+}
+
+
+
+
+
+
+
+
+/* top navbar  */
+
+.top_container {
+  position: fixed;
+  width: 100vw;
+  background-color: var(--pry3);
+  border-bottom: solid 3px var(--pry2);
+  z-index: 1;
+}
+
+.a {
+  padding-left: 10vw;
+  width: 90vw;
+}
+
+/* Hero */
+.Hero_container {
+  background-color: var(--pry);
+}
+
+.hero_context {
+  width: 90%;
+  /* margin: auto; */
+  max-width: 1200px;
+}
+
+.hero_bg_text {
+  /* position: absolute; */
+  font-weight: 1000;
+  font-size: clamp(1.5em, 9vw, 3.5em);
+  text-shadow: 10px 10px 15px grey;
+  padding: 0;
+}
+
+.hero__text {
+  font-size: clamp(1em, 9vw, 1.2em);
+}
+
+/* .hero_text h1 {
+  font-weight: 700;
+  font-size: clamp(1.5em, 3vw, 3.5em);
+} */
+
+/* .hero_img_div {
+width: 40%;
+} */
+
+.hero_img {
+  width: 100%;
+  max-width: 600px;
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 768px) {
+  .hero_text {
+    width: 60%;
+  }
+}
+
+/* footer */
+
+.footer-bg {
+  background-color: var(--pry);
+  text-decoration: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (min-height: 100vh) {
+  .footer-bg {
+    position: relative;
+  }
+}
+
+.footer_links {
+  text-align: center;
+  text-decoration: none;
+}
+
+.logo1 {
+  width: 30vw;
+  max-width: 120px;
+}
+
+.socials ion-icon {
+  /* color: white; */
+  padding-right: 10px;
+  font-size: 20px;
+}
+
+.linkss {
+  text-decoration: none;
+  color: black;
+}
+
+.linkss:hover {
+  color: var(--pry2);
+}
+
+.socials a {
+  color: black;
+  transition: 1s;
+}
+
+.socials a:hover {
+  transform: scale(1.5);
+}
+
+
+
+ul {
+  display: flex;
+  padding: 0;
+  text-decoration: none;
+}
+
+li {
+  display: block;
+  /* margin-top: 0.7em; */
+  margin: 0.5em clamp(0.5em, 3vw, 1em);
+}
+
+.footer_content {
+  display: grid;
+  place-items: center;
+}
+
+
+
+
+/* Sign-in */
+.left_img {
+  max-width: 100%;
+}
+
+.signin-left {
+  /* background-color: var(--pry); */
+  width: 60vw;
+  height: 90vh;
+  border-radius: 10px;
+  place-items: center;
+}
+
+.signin-right {
+  /* background-color: var(--pry); */
+  /* width: 50vw; */
+  height: 90vh;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signin-right form,
+.signin-field,
+.buttonn {
+  /* border: 1px solid black; */
+  width: 100%;
+  border-radius: 5px;
+  font-size: clamp(1em, 3vw, 1.2em);
+  border: none;
+}
+
+.signin-field {
+  background: var(--pry);
+}
+
+.signin-field:focus {
+  /* border:1px solid var(--pry2); */
+  background: var(--sec);
+  color: var(--sec2);
+}
+
+.buttonn {
+  background: black;
+  border: none;
+  color: var(--sec2);
+  width: 100%;
+}
+
+.buttonn:hover {
+  background: var(--pry);
+  border: none;
+  color: var(--sec);
+}
+
+.signUp_link {
+  text-decoration: none;
+}
+
+/* Features */
+
+.card_container {
+  display: grid;
+  place-items: center;
+  gap: 3em;
+  /* grid-template-columns: 1fr 1fr; */
+}
+
+.grouping {
+  width: 100%;
+  max-width: 250px;
+  border-radius: 20px;
+  margin-top: 2em;
+  margin: 0 auto;
+  transition: 0.5s;
+  z-index: -3;
+  text-align: center;
+}
+
+.grouping p {
+  padding-top: 2em;
+}
+
+.card:hover {
+  background-color: var(--pry);
+  color: black;
+}
+
+.fairdog {
+  position: absolute;
+  max-width: 300px;
+  z-index: -1;
+  border-radius: 2em;
+}
+
+.outlinepaw {
+  position: absolute;
+  max-width: 70px;
+  right: -25px;
+  bottom: -25px;
+}
+
+@media (min-width: 768px) {
+  .card_container {
+    grid-template-columns: 1fr 1fr;
+    /* grid-gap: 100px; */
+  }
+}
+
+@media (min-width: 1100px) {
+  .card_container {
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1em 0;
+    /* grid-gap: 100px; */
+  }
+}
+
+.card {
+  width: 100%;
+  max-width: 250px;
+  height: 250px;
+  background-color: var(--sec);
+  color: var(--sec2);
+  border-radius: 20px;
+  margin-top: 2em;
+  display: grid;
+  place-items: center;
+  transition: 0.5s;
+  z-index: -2;
+}
+
+.card ion-icon {
+  font-size: 50px;
+}
+
+/* 404 page */
+
+.four {
+  display: grid;
+  place-items: center;
+  width: 100vw;
+  text-align: center;
+}
+
+.four04img {
+  width: 80vw;
+  max-width: 1000px;
+  margin: 7em auto 0;
+}
+
+
+
+
+
+/* ABOUT PAGE  */
+
+.aboutt {
+  overflow-x: hidden !important;
+}
+
+.about_div {
+  height: 10em;
+  position: relative;
+  /* overflow: hidden; */
+  border-bottom: solid 1.3em var(--pry3);
+}
+
+
+@media (min-width: 768px) {
+
+  .about_div {
+    height: 15em;
+  }
+}
+
+.about_header {
+  /* background: url("./img/about.webp") cover; */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  /* max-height: 20em; */
+  width: 100%;
+  margin-top: 5em;
+  padding: 2em;
+  display: grid;
+  place-items: center;
+
+  position: relative;
+  
+  transition: all 0.6s ease-in-out;
+}
+
+.about_header:hover {
+  transform: scale(1.1);
+}
+
+.div {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* transform: translate(25%, 25%); */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%;
+  top: 0;
+  left: 4%;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  /* background: red; */
+}
+
+.div h1 {
+  /* margin: auto auto; */
+  font-size: clamp(1.5em, 9vw, 3.5em);
+  font-weight: 700;
+  z-index: 1;
+  color: white;
+  
+
+}
+
+#overlay {
+  position: absolute; /* Sit on top of the page content */
+  /* display: none; Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+
+}
+
+.meet_div {
+  display: grid;
+  place-content: center;
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+
+}
+
+@media (min-width: 700px) {
+  .meet_div {
+    grid-template-columns: 1fr 1fr 1fr;
+  
+  }
+}
+
+.team_card {
+  width: 25vw;
+  min-width:250px;
+  max-width: 300px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  padding-bottom: 3em;
+}
+
+@media (min-width: 700px) {
+  .team_card {
+    width: 25vw;
+    min-width:150px;
+    display: grid;
+    place-items: center;
+  }
+}
+
+.about_link {
+  text-decoration: none;
+  color: white;
+  background-color: black;
+  padding: 0.5em 0.8em;
+  margin: 0 0.3em;
+  border-radius: 20px;
+  /* border: solid 1px ; */
+}
+
+.meet_div h4 {
+  margin-top: 1em;
+  font-weight: 700;
+}
+
+.ta {
+  height: 50vh;
+}
+
+.text p {
+  text-align: justify;
+  font-size: clamp(1em, 9vw, 1.2em);
+}
+
+hr {
+  color: var(--sec);
+  border: solid 2px;
+  opacity: 0.8;
+}
