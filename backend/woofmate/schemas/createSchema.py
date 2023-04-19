@@ -1,5 +1,8 @@
+from datetime import datetime
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
+
+# from sqlalchemy import DateTime
 from woofmate.schemas.type import Breed, Gender, Relationship
 # from dtos.type import Breed, Gender, Relationship
 
@@ -103,3 +106,39 @@ class LoginUser(BaseModel):
 
 class PasswordReset(BaseModel):
     email: EmailStr
+
+
+class DogProfileResponse(BaseModel):
+    id: int
+    owner_id: int
+    name: str
+    age: Optional[int]
+    breed: str
+    gender: str
+    description: Optional[str]
+    city: Optional[str]
+    state: Optional[str]
+    country: Optional[str]
+    relationship_preferences: Optional[str]
+    dog_image_1: Optional[str]
+    dog_image_2: Optional[str]
+    dog_image_3: Optional[str]
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+    class Config:
+        orm_mode = True
+
+class UserWithDogs(BaseModel):
+    id: int
+    email: str
+    firstName: Optional[str]
+    lastName: Optional[str]
+    profile_picture: Optional[str]
+    is_active: Optional[bool]
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+    dogProfiles: Optional[List[DogProfileResponse]] = []
+
+    class Config:
+        orm_mode = True

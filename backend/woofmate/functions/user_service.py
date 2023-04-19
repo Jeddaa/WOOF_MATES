@@ -86,7 +86,7 @@ class UserServices:
         """
         user = self.get_one_user(db, email=current_user)
         if user is not None:
-            return user.dogProfiles
+            return {"user": user, "dogProfiles": user.dogProfiles}
         else:
             return {'message': 'No profiles found'}
 

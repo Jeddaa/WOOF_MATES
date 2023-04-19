@@ -7,7 +7,7 @@ from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
 from typing import Annotated, List
-from woofmate.schemas.createSchema import ICreateUser, IUser, LoginUser
+from woofmate.schemas.createSchema import IUser, UserWithDogs
 from woofmate.functions.user_service import UserServices
 from woofmate.database import get_db
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
@@ -136,6 +136,23 @@ async def get_one_user(user_id: int, db: Session = Depends(get_db)):
     return user
 
 
-# @auth_router.get('/user_with_dogs_profile')
-# async def (email: str, db: Session = Depends(get_db)):
-#     pass
+@auth_router.get(
+    '/user_with_dogs_profile',
+    response_model=UserWithDogs,
+    status_code=status.HTTP_200_OK
+)
+async def get_full_user_profiles(
+    db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
+):
+    """Gets the user profile with the dogs profile"""
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+    current_user = Authorize.get_jwt_subject()
+    user_profile = await UserServices.get_full_profiles(db, current_user)
+    return user_profile.get('user')
