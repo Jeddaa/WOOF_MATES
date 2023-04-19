@@ -90,6 +90,8 @@ class UserServices:
         else:
             return {'message': 'No profiles found'}
 
+    # async def update_full_profiles()
+
     # async def forgotPassword(self, db: Session, user_email:PasswordReset):
     #     user = db.query(User).filter(User.email == user_email).first()
     #     if user is not None:

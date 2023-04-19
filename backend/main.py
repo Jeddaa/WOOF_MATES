@@ -1,6 +1,7 @@
 from fastapi_jwt_auth import AuthJWT
 from fastapi import FastAPI
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 from fastapi import FastAPI
@@ -13,6 +14,14 @@ from woofmate.config import Settings
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 @app.on_event("startup")
