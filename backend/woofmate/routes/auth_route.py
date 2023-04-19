@@ -73,15 +73,15 @@ async def create_user(
 
 @auth_router.post("/login", status_code=status.HTTP_200_OK)
 async def login(
-    user: LoginUser, db: Session = Depends(get_db),
-    Authorize: AuthJWT = Depends()
+    email: str = Form(...), password: str = Form(...),
+    db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
 ):
     """
     Validates the user credentials and returns the access token
     and refresh token
     """
-    user_to_login = await UserServices.login(db, user)
-    if user_to_login.email == user.email:
+    user_to_login = await UserServices.login(db, email, password)
+    if user_to_login.email == email:
         access_token = Authorize.create_access_token(
             subject=user_to_login.email
         )

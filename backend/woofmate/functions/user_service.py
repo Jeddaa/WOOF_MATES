@@ -3,7 +3,8 @@ User services models:
 contains all the methods related to the users
 """
 
-from fastapi import HTTPException, Depends
+from fastapi import HTTPException
+from pydantic import EmailStr
 from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash, check_password_hash
 from woofmate.schemas.createSchema import ICreateUser, LoginUser, PasswordReset
@@ -33,7 +34,7 @@ class UserServices:
 
     async def createUser(
         self, db: Session, firstName: str, lastName: str,
-        email: str, password: str, profile_picture_url: str
+        email: EmailStr, password: str, profile_picture_url: str
     ):
         """
         A method to create and store a new user to database
@@ -59,12 +60,12 @@ class UserServices:
 
         return {'message': 'User created successfully'}
 
-    async def login(self, db: Session, user: LoginUser):
+    async def login(self, db: Session, email: EmailStr, password: str):
         """
         Method to login a user and check if the email and password
         are valid
         """
-        check_email = self.get_one_user(db, email=user.email)
+        check_email = self.get_one_user(db, email=email)
 
         if check_email is None:
             raise HTTPException(
@@ -72,7 +73,7 @@ class UserServices:
                 )
 
         password = check_password_hash(
-            check_email.hashed_password, user.password
+            check_email.hashed_password, password
         )
 
         if password is False:
