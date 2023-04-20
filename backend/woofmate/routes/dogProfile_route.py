@@ -10,7 +10,7 @@ from woofmate.functions.user_service import UserServices
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
 from woofmate.functions.dog_profile_service import DogServices
 from woofmate.database import get_db
-from woofmate.schemas.createSchema import ICreateProfile
+from woofmate.schemas.createSchema import DogProfileResponse, ICreateProfile
 
 dogProfile_router = APIRouter(
     prefix='/profile',
@@ -124,7 +124,7 @@ async def create_profile(
 
 @dogProfile_router.get(
     "/current_user_dogs",
-    response_model=List[ICreateProfile],
+    response_model=List[DogProfileResponse],
     status_code=status.HTTP_200_OK
 )
 async def current_user_dogs(
