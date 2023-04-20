@@ -1,4 +1,4 @@
-python=3.10.*
+python==3.10.*
 anyio==3.6.2
 bcrypt==4.0.1
 certifi==2022.12.7
