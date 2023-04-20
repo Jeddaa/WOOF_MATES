@@ -1,0 +1,4 @@
+woofy
+venv
+.env
+__pycache__/
