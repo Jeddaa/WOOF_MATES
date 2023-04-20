@@ -1,8 +1,6 @@
 from datetime import datetime
 from pydantic import BaseModel, EmailStr, HttpUrl
 from typing import List, Optional
-
-# from sqlalchemy import DateTime
 from woofmate.schemas.type import Breed, Gender, Relationship
 # from dtos.type import Breed, Gender, Relationship
 
