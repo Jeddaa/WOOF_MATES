@@ -1,13 +1,13 @@
-<<<<<<< HEAD
+import os
 from fastapi_jwt_auth import AuthJWT
-from fastapi import FastAPI
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
-from fastapi import FastAPI
 import inspect
 import re
+
+import uvicorn
 from woofmate.database import engine, Base
 from woofmate.routes.auth_route import auth_router
 from woofmate.routes.dogProfile_route import dogProfile_router
@@ -94,17 +94,8 @@ def get_config():
 
 app.include_router(auth_router)
 app.include_router(dogProfile_router)
-=======
-from fastapi import FastAPI
-from app.database import engine
-from app import models
-from app.routers import user, dogs
 
-app = FastAPI(
-    title="WOOF MATES API"
-)
-app.include_router(user.router)
-app.include_router(dogs.router)
-
-models.Base.metadata.create_all(engine)
->>>>>>> d0ff77e2a63a9f3d4233665263bbabe61fa1aebb
+if __name__ == "__main__":
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", "8000"))
+    uvicorn.run("main:app", host=host, port=port, reload=True)
