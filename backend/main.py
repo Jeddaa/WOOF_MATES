@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from fastapi_jwt_auth import AuthJWT
 from fastapi import FastAPI
 from fastapi import FastAPI
@@ -93,3 +94,17 @@ def get_config():
 
 app.include_router(auth_router)
 app.include_router(dogProfile_router)
+=======
+from fastapi import FastAPI
+from app.database import engine
+from app import models
+from app.routers import user, dogs
+
+app = FastAPI(
+    title="WOOF MATES API"
+)
+app.include_router(user.router)
+app.include_router(dogs.router)
+
+models.Base.metadata.create_all(engine)
+>>>>>>> d0ff77e2a63a9f3d4233665263bbabe61fa1aebb
