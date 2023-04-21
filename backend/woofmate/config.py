@@ -18,9 +18,4 @@ class Settings(BaseSettings):
         env_file_encoding = "utf-8"
 
 
-@lru_cache
-def get_setings():
-    return Settings()
-
-
-settings = get_setings()
+settings = Settings()
