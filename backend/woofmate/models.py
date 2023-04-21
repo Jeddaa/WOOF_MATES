@@ -23,12 +23,6 @@ class User(Base):
     dogProfiles = relationship(
         'DogProfile', back_populates='owner', cascade='all, delete-orphan'
     )
-    messages_sent = relationship(
-        'Message', back_populates='sender', foreign_keys='Message.sender_id'
-    )
-    messages_received = relationship(
-        'Message', back_populates='receiver', foreign_keys='Message.receiver_id'
-    )
 
     def __repr__(self):
         return f"<First name={self.firstName} Last name={self.lastName}>"
@@ -62,21 +56,3 @@ class DogProfile(Base):
     def __repr__(self):
         """Official string representation of the DogProfile class."""
         return f"<name={self.name} breed={self.breed}>"
-
-
-class Message(Base):
-    """
-    Contains the models and attributes for the message
-    """
-    __tablename__ = 'messages'
-
-    id = Column(Integer, primary_key=True, index=True)
-    sender_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    sender = relationship('User', back_populates='messages_sent')
-    receiver_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    receiver = relationship('User', back_populates='messages_received')
-    content = Column(Text, nullable=False)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-
-    def __repr__(self):
-        return f"<Message from {self.sender.firstName} to {self.receiver.firstName}: {self.content}>"
