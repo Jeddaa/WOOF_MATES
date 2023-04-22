@@ -105,6 +105,9 @@ class DogServices:
                 detail="You are not authorized to update this profile"
             )
 
+        # Checks if values are sent for the attributes, and if not
+        # does nothing, i.e defaults to the original/former value
+
         if age:
             dog.age = age
         if description:
