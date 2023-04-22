@@ -129,9 +129,9 @@ class DogProfileResponse(BaseModel):
 
 class UserWithDogs(BaseModel):
     id: int
-    email: str
     firstName: Optional[str]
     lastName: Optional[str]
+    email: str
     profile_picture: Optional[str]
     is_active: Optional[bool]
     created_at: datetime
