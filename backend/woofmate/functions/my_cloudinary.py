@@ -7,7 +7,7 @@ from woofmate.config import settings
 import cloudinary
 from cloudinary.uploader import upload
 from cloudinary.utils import cloudinary_url
-from fastapi import File, UploadFile
+from fastapi import File
 from typing import Annotated, Optional
 import logging
 
@@ -32,12 +32,7 @@ async def upload_image_to_cloudinary(
             file,
             public_id=f'{foldername}/{username}_{field_name}'
         )
-        url, options = cloudinary_url(
-            result['public_id'],
-            format=result['format'],
-            crop="fill"
-        )
-        return url
+        return result.get('url')
     except Exception as e:
         logging.exception("Cloudinary_Error: %s", str(e))
         return None

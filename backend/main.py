@@ -6,7 +6,6 @@ from fastapi.routing import APIRoute
 from fastapi.openapi.utils import get_openapi
 import inspect
 import re
-
 import uvicorn
 from woofmate.database import engine, Base
 from woofmate.routes.auth_route import auth_router

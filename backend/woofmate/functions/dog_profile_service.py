@@ -1,8 +1,5 @@
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from woofmate.schemas.createSchema import (
-    ICreateProfile, ICreateUser, LoginUser, PasswordReset
-)
 from woofmate.models import DogProfile
 from woofmate.functions.user_service import UserServices
 
@@ -63,9 +60,70 @@ class DogServices:
         the user is logged in and the current user is the owner of the dog
         """
         get_user = UserServices.get_one_user(db, email=current_user)
+
         get_all_profiles = (
             db.query(DogProfile).filter_by(
                 owner_id=get_user.id
             ).offset(skip).limit(limit).all()
         )
+
+        if get_all_profiles == []:
+            raise HTTPException(
+                status_code=404,
+                detail="No dog profiles found for this user"
+            )
         return get_all_profiles
+
+    async def update_dog_profile(
+        self, db: Session, current_user: str, dog_id: int, age: int,
+        description: str, city: str, state: str, country: str,
+        relationship_preferences: str, dog_image_1_url: str,
+        dog_image_2_url: str, dog_image_3_url: str
+    ):
+        """
+        Method to update a dog profile after validating that the user
+        is logged in and the current user is the owner of the dog
+        """
+        user = UserServices.get_one_user(db, email=current_user)
+        dog = self.get_one_profile(db, id=dog_id)
+
+        if not user:
+            raise HTTPException(
+                status_code=400,
+                detail="Please Log in to your account"
+            )
+
+        if not dog:
+            raise HTTPException(
+                status_code=404,
+                detail="Dog profile not found"
+            )
+
+        if user.id != dog.owner_id:
+            raise HTTPException(
+                status_code=401,
+                detail="You are not authorized to update this profile"
+            )
+
+        if age:
+            dog.age = age
+        if description:
+            dog.description = description
+        if city:
+            dog.city = city
+        if state:
+            dog.state = state
+        if country:
+            dog.country = country
+        if relationship_preferences:
+            dog.relationship_preferences = relationship_preferences
+        if dog_image_1_url:
+            dog.dog_image_1 = dog_image_1_url
+        if dog_image_2_url:
+            dog.dog_image_2 = dog_image_2_url
+        if dog_image_3_url:
+            dog.dog_image_3 = dog_image_3_url
+
+        db.commit()
+        db.refresh(dog)
+        return ({"message": "Dog profile updated successfully"})

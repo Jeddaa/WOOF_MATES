@@ -2,10 +2,10 @@
 Contains the routes for the dog profile
 """
 
-from fastapi import Depends, APIRouter, File, Form, HTTPException, status
+from fastapi import Depends, APIRouter, File, Form, HTTPException, Path, status
 from fastapi_jwt_auth import AuthJWT
 from sqlalchemy.orm import Session
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 from woofmate.functions.user_service import UserServices
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
 from woofmate.functions.dog_profile_service import DogServices
@@ -149,3 +149,69 @@ async def current_user_dogs(
         db, current_user, skip=skip, limit=limit
     )
     return dog_profiles
+
+
+@dogProfile_router.put(
+    '/update_dog_profile/{dog_id}', status_code=status.HTTP_200_OK
+)
+async def update_dog_profile(
+    dog_image_1: Optional[bytes] = File(default=None),
+    dog_image_2: Optional[bytes] = File(default=None),
+    dog_image_3: Optional[bytes] = File(default=None),
+    dog_id: int = Path(...), age: int = Form(default=None),
+    description: str = Form(default=None), city: str = Form(default=None),
+    state: str = Form(default=None), country: str = Form(default=None),
+    relationship_preferences: str = Form(default=None),
+    db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
+):
+    """
+    Route to update a dog profile after validating that the user
+    is logged in and the current user is the owner of the dog
+    """
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+    current_user = Authorize.get_jwt_subject()
+
+    if dog_image_1 and len(dog_image_1) > 1000000:
+        raise HTTPException(
+            status_code=400,
+            detail="Dog Image shouldn't be greater than 1MB"
+        )
+
+    if dog_image_2 and len(dog_image_2) > 1000000:
+        raise HTTPException(
+            status_code=400,
+            detail="Dog Image shouldn't be greater than 1MB"
+        )
+
+    if dog_image_2 and len(dog_image_3) > 1000000:
+        raise HTTPException(
+            status_code=400,
+            detail="Dog Image shouldn't be greater than 1MB"
+        )
+
+    dog_image_1_url = await upload_image_to_cloudinary(
+        'WOOF_MATES_DOGS', dog_image_1, current_user, 'dog_image_1'
+    )
+
+    dog_image_2_url = await upload_image_to_cloudinary(
+        'WOOF_MATES_DOGS', dog_image_2, current_user, 'dog_image_2'
+    )
+
+    dog_image_3_url = await upload_image_to_cloudinary(
+        'WOOF_MATES_DOGS', dog_image_3, current_user, 'dog_image_3'
+    )
+
+    update_dog_profile = await DogServices.update_dog_profile(
+        db, current_user, dog_id, age, description, city, state,
+        country, relationship_preferences, dog_image_1_url,
+        dog_image_2_url, dog_image_3_url
+    )
+
+    return update_dog_profile
