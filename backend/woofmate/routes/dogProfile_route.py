@@ -152,7 +152,8 @@ async def current_user_dogs(
 
 
 @dogProfile_router.put(
-    '/update_dog_profile/{dog_id}', status_code=status.HTTP_200_OK
+    '/update_dog_profile/{dog_id}',
+    status_code=status.HTTP_200_OK
 )
 async def update_dog_profile(
     dog_image_1: Optional[bytes] = File(default=None),
@@ -215,3 +216,26 @@ async def update_dog_profile(
     )
 
     return update_dog_profile
+
+
+@dogProfile_router.delete(
+    '/current_user/dog_id', status_code=status.HTTP_200_OK
+)
+async def delete_user_dog(
+    dog_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
+):
+    """Route to delete a user's dog by it Id"""
+
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+    current_user = Authorize.get_jwt_subject()
+
+    return await DogServices.delete_dog_profile(
+        db, current_user, dog_id
+    )

@@ -130,3 +130,34 @@ class DogServices:
         db.commit()
         db.refresh(dog)
         return ({"message": "Dog profile updated successfully"})
+
+
+    async def delete_dog_profile(
+        self, db: Session, current_user: str, dog_id: int
+    ):
+        """A method to delete a user's dog profile"""
+
+        user = UserServices.get_one_user(db, email=current_user)
+        dog = self.get_one_profile(db, id=dog_id)
+
+        if not user:
+            raise HTTPException(
+                status_code=400,
+                detail="Please Log in to your account"
+            )
+
+        if not dog:
+            raise HTTPException(
+                status_code=404,
+                detail="Dog profile not found"
+            )
+
+        if user.id != dog.owner_id:
+            raise HTTPException(
+                status_code=401,
+                detail="Unauthorized"
+            )
+
+        db.delete(dog)
+        db.commit()
+        return {"detail": "Deleted Dog profile successfully"}

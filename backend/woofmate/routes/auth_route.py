@@ -85,7 +85,7 @@ async def login(
     user_to_login = await UserServices.login(db, email, password)
     if user_to_login.email == email:
 
-         # Set expiration times for access and refresh tokens
+        # Set expiration times for access and refresh tokens
         access_token_expires = timedelta(days=2)
         refresh_token_expires = timedelta(days=30)
 
@@ -168,7 +168,10 @@ async def get_full_user_profiles(
     return user_profile.get('user')
 
 
-@auth_router.put('/current_user_profile')
+@auth_router.put(
+    '/current_user_profile',
+    status_code=status.HTTP_200_OK
+)
 async def update_current_user(
     profile_image: Optional[bytes] = File(default=None),
     db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
@@ -183,7 +186,6 @@ async def update_current_user(
             detail="invalid authorization"
         )
     current_user = Authorize.get_jwt_subject()
-    user = UserServices.get_one_user(db, email=current_user)
 
     if profile_image and len(profile_image) > 1000000:
         raise HTTPException(
