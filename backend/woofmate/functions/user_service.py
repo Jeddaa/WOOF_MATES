@@ -7,7 +7,6 @@ from fastapi import HTTPException
 from pydantic import EmailStr
 from sqlalchemy.orm import Session
 from werkzeug.security import generate_password_hash, check_password_hash
-from woofmate.schemas.createSchema import ICreateUser, LoginUser, PasswordReset
 from woofmate.models import User
 
 
@@ -90,7 +89,31 @@ class UserServices:
         else:
             return {'message': 'No profiles found'}
 
-    # async def update_full_profiles()
+    async def update_user(
+        self, db: Session, current_user: str, image_url: str
+    ):
+        """Method to the update the current user profile"""
+
+        try:
+            user = self.get_one_user(db, email=current_user)
+            if image_url:
+                user.profile_picture = image_url
+            db.commit()
+            db.refresh(user)
+            return {'detail': 'Successsfully updated'}
+
+        except Exception as e:
+            raise HTTPException(
+                status_code=400, detail=str(e)
+            )
+
+    async def get_other_user_profile(self, db: Session, user_id: int):
+        """Method to get the other user profile"""
+        user = self.get_one_user(db, id=user_id)
+        if user is not None:
+            return user
+        else:
+            return {'message': 'No profiles found'}
 
     # async def forgotPassword(self, db: Session, user_email:PasswordReset):
     #     user = db.query(User).filter(User.email == user_email).first()

@@ -2,15 +2,17 @@
 contains all routes solely related to the user
 """
 
+from datetime import timedelta
 from fastapi import Depends, APIRouter, File, Form, HTTPException, status
 from fastapi_jwt_auth import AuthJWT
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.orm import Session
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 from woofmate.schemas.createSchema import IUser, UserWithDogs
 from woofmate.functions.user_service import UserServices
 from woofmate.database import get_db
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
+
 
 auth_router = APIRouter(
     prefix='/auth',
@@ -82,11 +84,19 @@ async def login(
     """
     user_to_login = await UserServices.login(db, email, password)
     if user_to_login.email == email:
+
+        # Set expiration times for access and refresh tokens
+        access_token_expires = timedelta(days=2)
+        refresh_token_expires = timedelta(days=30)
+
+        # Create access and refresh tokens with specified expiration times
         access_token = Authorize.create_access_token(
-            subject=user_to_login.email
+            subject=user_to_login.email,
+            expires_time=access_token_expires
         )
         refresh_token = Authorize.create_refresh_token(
-            subject=user_to_login.email
+            subject=user_to_login.email,
+            expires_time=refresh_token_expires
         )
         response = {
             "access_token": f"Bearer {access_token}",
@@ -156,3 +166,69 @@ async def get_full_user_profiles(
     current_user = Authorize.get_jwt_subject()
     user_profile = await UserServices.get_full_profiles(db, current_user)
     return user_profile.get('user')
+
+
+@auth_router.put(
+    '/current_user_profile',
+    status_code=status.HTTP_200_OK
+)
+async def update_current_user(
+    profile_image: Optional[bytes] = File(default=None),
+    db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
+):
+    """Updates the current user profile"""
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+    current_user = Authorize.get_jwt_subject()
+
+    if profile_image and len(profile_image) > 1000000:
+        raise HTTPException(
+            status_code=400,
+            detail="Profile picture shouldn't be greater than 1MB"
+        )
+
+    profile_image_url = await upload_image_to_cloudinary(
+        'WOOF_MATES_USERS', profile_image, current_user, 'profile_image'
+    )
+
+    updated_user = await UserServices.update_user(
+        db, current_user, profile_image_url
+    )
+    return updated_user
+
+
+@auth_router.get(
+    '/other_user_profile/{user_id}',
+    status_code=status.HTTP_200_OK,
+    response_model=UserWithDogs
+)
+async def get_other_user_profile(
+    user_id: int, db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends()
+):
+    """Gets the other user profile"""
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+
+    # Query the database to check if the user exists by id
+    other_user = UserServices.get_one_user(db, id=user_id)
+    if other_user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found"
+        )
+
+    other_user_profile = await UserServices.get_other_user_profile(db, user_id)
+    return other_user_profile
