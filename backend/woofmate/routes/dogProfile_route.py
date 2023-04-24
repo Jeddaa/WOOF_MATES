@@ -241,8 +241,14 @@ async def delete_user_dog(
     )
 
 
-@dogProfile_router.get('/current_user/match_same_breed/{dog_id}', status_code=status.HTTP_200_OK)
-async def match_same_breed(dog_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+@dogProfile_router.get(
+    '/current_user/match_same_breed/{dog_id}',
+    status_code=status.HTTP_200_OK
+)
+async def match_same_breed(
+    dog_id: int, db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends()
+):
     """
     Route to get all the dogs of the same breed as the dog
     with the dog_id
@@ -255,11 +261,24 @@ async def match_same_breed(dog_id: int, db: Session = Depends(get_db), Authorize
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="invalid authorization"
         )
+
     current_user = Authorize.get_jwt_subject()
     current_profile = DogServices.get_one_profile(db, id=dog_id)
-    profiles = await DogServices.get_all_dog_profiles(db, id != dog_id )
-     # Calculate the match score for each profile and create a dictionary with the score and profile data
-    each_matches = [{'score': await DogServices.match_same_breed(db, current_profile, p), 'profile': p} for p in profiles]
+
+    # Get all the profiles of the same breed as the current profile
+    profiles = await DogServices.get_all_dog_profiles(
+        db, exclude_id=dog_id, breed=current_profile.breed
+    )
+
+     # Calculate the match score for each profile
+     # and create a dictionary with the score and profile data
+    each_matches = [
+        {
+            'score': await DogServices.match_dog_of_same_breed(
+                db, current_profile, p
+            ), 'profile': p
+        } for p in profiles
+    ]
   # Sort the matches in descending order by score
     matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
 
@@ -267,8 +286,12 @@ async def match_same_breed(dog_id: int, db: Session = Depends(get_db), Authorize
     return {'matches': matches[:10]}
 
 
-@dogProfile_router.get('/current_user/match_same_breed/{dog_id}', status_code=status.HTTP_200_OK)
-async def match_diff_breed(dog_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()):
+@dogProfile_router.get(
+    '/current_user/match_same_breed/{dog_id}', status_code=status.HTTP_200_OK
+)
+async def match_diff_breed(
+    dog_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
+):
     """
     Route to get all the dogs of the different breed as the dog
     with the dog_id
