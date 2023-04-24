@@ -73,10 +73,11 @@ This Project and webapp is made possible and written by:
 - GitHub - [UnfazedAy](https://github.com/UnfazedAy) || [VicNW](https://github.com/VicNW) || [Jeddaa](https://github.com/Jeddaa) || [KimFarida](https://github.com/KimFarida)
 - Twitter - [@SoniyiAyomide_](https://twitter.com/SoniyiAyomide_) || [@SoniyiAyomide_](https://twitter.com/SoniyiAyomide_) || [@SoniyiAyomide_](https://twitter.com/SoniyiAyomide_) || [@Kim_Farida_](#)
 - Linkedin - [Ayomide Soniyi](https://www.linkedin.com/in/ayomide-soniyi-3151461a5/) || [Victor Nwosu](https://www.linkedin.com/in/nwosu-victor/) || [Fatihah Oduwole](https://www.linkedin.com/in/fatihahoduwole/) || [Farida Momoh](https://linkedin.com/in/farida-momoh)
+- Email - <ayomidesoniyi@gmail.com> || <victornwosu54@gmail.com> || <fathiato@gmail.com> || <farimomoh@gmail.com>
 
 ## Acknowledgments
 
-We would like to express our deepest gratitude to our mentors, Nehemiah Kamolu, Charles Osoti, Marteens and other [ALX](https://www.alxafrica.com) mentors, for their valuable guidance, support, and encouragement throughout the course of this journey. Their insights and expertise were essential in helping the team navigate through our challenges and most of all becoming a better software engineer, and we are forever grateful for the time and energy invested in us.
+We would like to express our deepest gratitude to our mentors, **Nehemiah Kamolu**, **Charles Osoti**, **Maarten van Middelaar** and other [ALX](https://www.alxafrica.com) mentors, for their valuable guidance, support, and encouragement throughout the course of this journey. Their insights and expertise were essential in helping the team navigate through our challenges and most of all becoming a better software engineer, and we are forever grateful for the time and energy invested in us.
 
 A big shoutout to all the  team members for their hard work, dedication, and valuable contributions to this project. Their creativity and enthusiasm were a constant source of inspiration and motivation for each and everyone of us and success of this project, and we are grateful for the opportunity to have worked alongside such talented individuals.
 
@@ -89,7 +90,7 @@ This project would not have been possible without the contributions and support 
 - [Jeddaa](https://github.com/Jeddaa)
 - [KimFarida](https://github.com/KimFarida)
 
-If you have any questions or issues using our website or want to contribute or support us, please contact us through our [email](emperormigrate@gmail.com) and we will be happy to respond.
+If you have any questions or issues using our website or want to contribute or support us, please contact us through our email <emperormigrate@gmail.com> and we will be happy to respond.
 
 ## License
-- All right to this code and webapp reserved by [Ayomide Soniyi](ayomidesoniyi@gmail.com), [Victor Nwosu](victornwosu54@gmail.com), [Fatihah Oduwole](fathiato@gmail.com) and [Farida Momoh](farimomoh@gmail.com)
+- All right to this code and webapp reserved by Ayomide Soniyi, Victor Nwosu, Fatihah Oduwole and Farida Momoh.
