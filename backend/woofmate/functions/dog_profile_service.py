@@ -194,3 +194,18 @@ class DogServices:
         if profile1.relationship_preferences == profile2.relationship_preferences:
             score += 5
         return score
+
+    async def match_dog_of_diff_breed(self, db, profile1, profile2):
+        """ a matching function to compare two dogprofiles"""
+        score = 0
+        if abs(profile1.age - profile2.age) <= 2:
+            score += 5
+        if profile1.gender != profile2.gender:
+            score += 5
+        if profile1.city == profile2.city:
+            score += 5
+        if profile1.state == profile2.state:
+            score += 5
+        if profile1.relationship_preferences == profile2.relationship_preferences:
+            score += 5
+        return score
