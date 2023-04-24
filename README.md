@@ -89,7 +89,7 @@ This project would not have been possible without the contributions and support 
 - [Jeddaa](https://github.com/Jeddaa)
 - [KimFarida](https://github.com/KimFarida)
 
-If you have any questions or issues using our website or want to contribute or support us, please contact us through our [email](emperormigrate@gmail.com) and we will be happy to respond.
+If you have any questions or issues using our website or want to contribute or support us, please contact us through our [email]<emperormigrate@gmail.com> and we will be happy to respond.
 
 ## License
-- All right to this code and webapp reserved by [Ayomide Soniyi](ayomidesoniyi@gmail.com), [Victor Nwosu](victornwosu54@gmail.com), [Fatihah Oduwole](fathiato@gmail.com) and [Farida Momoh](farimomoh@gmail.com)
+- All right to this code and webapp reserved by [Ayomide Soniyi]<ayomidesoniyi@gmail.com>, [Victor Nwosu]<victornwosu54@gmail.com>, [Fatihah Oduwole]<fathiato@gmail.com> and [Farida Momoh]<farimomoh@gmail.com>
