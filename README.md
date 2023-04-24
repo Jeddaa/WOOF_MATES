@@ -93,4 +93,4 @@ This project would not have been possible without the contributions and support 
 If you have any questions or issues using our website or want to contribute or support us, please contact us through our email <emperormigrate@gmail.com> and we will be happy to respond.
 
 ## License
-- All right to this code and webapp reserved by Ayomide Soniyi, Victor Nwosu, Fatihah Oduwole and Farida Momoh.
+- All right to this code and webapp reserved by **Ayomide Soniyi**, **Victor Nwosu**, **Fatihah Oduwole** and **Farida Momoh**.

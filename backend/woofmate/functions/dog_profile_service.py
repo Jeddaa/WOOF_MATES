@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from woofmate.models import DogProfile
@@ -51,6 +52,30 @@ class DogServices:
         db.refresh(new_dog_profile)
 
         return ({"message": "New dog created successfully"})
+
+    async def get_all_dog_profiles(
+        self, db: Session, exclude_id: Optional[int] = None, **kwargs
+    ):
+        """
+        Method to get all the profiles of the dogs in the database,
+        filtered by the provided keyword arguments and excluding
+        the dog profile with the given ID if provided
+        """
+        query = db.query(DogProfile)
+        if exclude_id:
+            query = query.filter(id != exclude_id)
+
+        for key, value in kwargs.items():
+            if hasattr(DogProfile, key):
+                query = query.filter(getattr(DogProfile, key) == value)
+        profiles = query.all()
+
+        if not profiles:
+            raise HTTPException(
+                status_code=404,
+                detail="No dog profiles found for this user"
+            )
+        return profiles
 
     async def get_dog_profiles_of_user(
         self, db: Session, current_user, skip: int, limit: int = 20
@@ -161,3 +186,35 @@ class DogServices:
         db.delete(dog)
         db.commit()
         return {"detail": "Deleted Dog profile successfully"}
+
+    async def match_dog_of_same_breed(self, db: Session, profile1, profile2):
+        """ a matching function to compare two dogprofiles"""
+        score = 0
+        if profile1.breed == profile2.breed:
+            score += 10
+        if abs(profile1.age - profile2.age) <= 2:
+            score += 5
+        if profile1.gender != profile2.gender:
+            score += 5
+        if profile1.city == profile2.city:
+            score += 5
+        if profile1.state == profile2.state:
+            score += 5
+        if profile1.relationship_preferences == profile2.relationship_preferences:
+            score += 5
+        return score
+
+    async def match_dog_of_diff_breed(self, db: Session, profile1, profile2):
+        """ a matching function to compare two dogprofiles"""
+        score = 0
+        if abs(profile1.age - profile2.age) <= 2:
+            score += 5
+        if profile1.gender != profile2.gender:
+            score += 5
+        if profile1.city == profile2.city:
+            score += 5
+        if profile1.state == profile2.state:
+            score += 5
+        if profile1.relationship_preferences == profile2.relationship_preferences:
+            score += 5
+        return score
