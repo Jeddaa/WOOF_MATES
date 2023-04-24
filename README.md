@@ -77,7 +77,7 @@ This Project and webapp is made possible and written by:
 
 ## Acknowledgments
 
-We would like to express our deepest gratitude to our mentors, Nehemiah Kamolu, Charles Osoti, Marteens and other [ALX](https://www.alxafrica.com) mentors, for their valuable guidance, support, and encouragement throughout the course of this journey. Their insights and expertise were essential in helping the team navigate through our challenges and most of all becoming a better software engineer, and we are forever grateful for the time and energy invested in us.
+We would like to express our deepest gratitude to our mentors, **Nehemiah Kamolu**, **Charles Osoti**, **Maarten van Middelaar** and other [ALX](https://www.alxafrica.com) mentors, for their valuable guidance, support, and encouragement throughout the course of this journey. Their insights and expertise were essential in helping the team navigate through our challenges and most of all becoming a better software engineer, and we are forever grateful for the time and energy invested in us.
 
 A big shoutout to all the  team members for their hard work, dedication, and valuable contributions to this project. Their creativity and enthusiasm were a constant source of inspiration and motivation for each and everyone of us and success of this project, and we are grateful for the opportunity to have worked alongside such talented individuals.
 
