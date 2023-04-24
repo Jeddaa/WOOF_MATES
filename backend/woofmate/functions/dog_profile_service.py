@@ -52,6 +52,22 @@ class DogServices:
 
         return ({"message": "New dog created successfully"})
 
+    async def get_all_dog_profiles(
+        self, db: Session, **kwargs
+    ):
+        """
+        Method to get all the profiles of the dogs in the database
+        """
+        get_all_profiles = db.query(DogProfile).filter_by(**kwargs).all()
+
+        # if get_all_profiles == []:
+        #     raise HTTPException(
+        #         status_code=404,
+        #         detail="No dog profiles found for this user"
+        #     )
+        return get_all_profiles
+
+
     async def get_dog_profiles_of_user(
         self, db: Session, current_user, skip: int, limit: int = 20
     ):
@@ -161,3 +177,20 @@ class DogServices:
         db.delete(dog)
         db.commit()
         return {"detail": "Deleted Dog profile successfully"}
+
+    async def match_dog_of_same_breed(self, db, profile1, profile2):
+        """ a matching function to compare two dogprofiles"""
+        score = 0
+        if profile1.breed == profile2.breed:
+            score += 10
+        if abs(profile1.age - profile2.age) <= 2:
+            score += 5
+        if profile1.gender != profile2.gender:
+            score += 5
+        if profile1.city == profile2.city:
+            score += 5
+        if profile1.state == profile2.state:
+            score += 5
+        if profile1.relationship_preferences == profile2.relationship_preferences:
+            score += 5
+        return score
