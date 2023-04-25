@@ -140,3 +140,11 @@ class UserWithDogs(BaseModel):
 
     class Config:
         orm_mode = True
+
+class Match(BaseModel):
+    score: int
+    profile: DogProfileResponse
+
+
+class Matches(BaseModel):
+    matches: List[Match]

@@ -1,3 +1,4 @@
+from typing import Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 from woofmate.models import DogProfile
@@ -51,6 +52,45 @@ class DogServices:
         db.refresh(new_dog_profile)
 
         return ({"message": "New dog created successfully"})
+
+    async def get_all_dog_profiles(
+        self, db: Session, exclude_id: Optional[int] = None, **kwargs
+    ):
+        """
+        Method to get all the profiles of the dogs in the database,
+        filtered by the provided keyword arguments and excluding
+        the dog profile with the given ID if provided
+        """
+        query = db.query(DogProfile)
+
+        # Condition to exclude the dog profile with the given ID
+        if exclude_id:
+            query = query.filter(DogProfile.id != exclude_id)
+
+        # Condition to filter the dog profiles by the given keyword arguments and
+        # check if the relationship preference is breeding partner and generates the
+        # opposite gender data to be used for matching
+        for key, value in kwargs.items():
+            if key == "relationship_preferences" and value == "Breeding Partner":
+                if "gender" in kwargs:
+                    opposite_gender_map = {
+                        "Male" : "Female",
+                        "Female": "Male"
+                    }
+                    opposite_gender = opposite_gender_map.get(kwargs.get('gender'))
+                    if opposite_gender:
+                        query = query.filter(DogProfile.gender == opposite_gender)
+
+            elif hasattr(DogProfile, key):
+                query = query.filter(getattr(DogProfile, key) == value)
+        profiles = query.all()
+
+        if not profiles:
+            raise HTTPException(
+                status_code=404,
+                detail="No dog profiles found for this user"
+            )
+        return profiles
 
     async def get_dog_profiles_of_user(
         self, db: Session, current_user, skip: int, limit: int = 20
@@ -131,7 +171,6 @@ class DogServices:
         db.refresh(dog)
         return ({"message": "Dog profile updated successfully"})
 
-
     async def delete_dog_profile(
         self, db: Session, current_user: str, dog_id: int
     ):
@@ -161,3 +200,26 @@ class DogServices:
         db.delete(dog)
         db.commit()
         return {"detail": "Deleted Dog profile successfully"}
+
+    async def match_dogs(self, db: Session, profile1, profile2):
+        """ a matching function to compare two dogprofiles"""
+        score = 0
+        if profile1.breed == profile2.breed:
+            score += 10
+        if abs(profile1.age - profile2.age) <= 2:
+            score += 5
+        if profile1.gender != profile2.gender:
+            score += 5
+        if profile1.city == profile2.city:
+            score += 5
+        if profile1.state == profile2.state:
+            score += 5
+        # if (
+        #     profile1.relationship_preferences == profile2.relationship_preferences
+        # ):
+        #     score += 5
+        if (profile1.relationship_preferences == "Breedding Partner") and \
+                (profile2.relationship_preferences == "Breedding Partner"):
+            if profile1.gender != profile2.gender:
+                score += 5
+        return score
