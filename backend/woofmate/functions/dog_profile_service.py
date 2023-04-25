@@ -62,11 +62,26 @@ class DogServices:
         the dog profile with the given ID if provided
         """
         query = db.query(DogProfile)
+
+        # Condition to exclude the dog profile with the given ID
         if exclude_id:
             query = query.filter(DogProfile.id != exclude_id)
 
+        # Condition to filter the dog profiles by the given keyword arguments and
+        # check if the relationship preference is breeding partner and generates the
+        # opposite gender data to be used for matching
         for key, value in kwargs.items():
-            if hasattr(DogProfile, key):
+            if key == "relationship_preferences" and value == "Breeding Partner":
+                if "gender" in kwargs:
+                    opposite_gender_map = {
+                        "Male" : "Female",
+                        "Female": "Male"
+                    }
+                    opposite_gender = opposite_gender_map.get(kwargs.get('gender'))
+                    if opposite_gender:
+                        query = query.filter(DogProfile.gender == opposite_gender)
+
+            elif hasattr(DogProfile, key):
                 query = query.filter(getattr(DogProfile, key) == value)
         profiles = query.all()
 
