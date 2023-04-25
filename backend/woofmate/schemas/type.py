@@ -4,7 +4,7 @@ from enum import Enum
 class Relationship(str, Enum):
     playmate = "Playmate"
     TrainingPartner = "Training Partner"
-    BreeddingPartner = "Breedding Partner"
+    BreeddingPartner = "Breeding Partner"
     ServiceDogPartner = "Service Dog Partner"
     Companionship = "Companionship"
 
