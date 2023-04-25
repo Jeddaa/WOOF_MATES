@@ -10,7 +10,7 @@ from woofmate.functions.user_service import UserServices
 from woofmate.functions.my_cloudinary import upload_image_to_cloudinary
 from woofmate.functions.dog_profile_service import DogServices
 from woofmate.database import get_db
-from woofmate.schemas.createSchema import DogProfileResponse, ICreateProfile
+from woofmate.schemas.createSchema import DogProfileResponse, Matches
 
 dogProfile_router = APIRouter(
     prefix='/profile',
@@ -242,16 +242,63 @@ async def delete_user_dog(
 
 
 @dogProfile_router.get(
-    '/current_user/match_same_breed/{dog_id}',
-    status_code=status.HTTP_200_OK
+    '/current_user/match_all_dogs/{dog_id}',
+    status_code=status.HTTP_200_OK,
+    response_model=Matches
+)
+async def match_all_dogs(
+    dog_id: int, db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends()
+):
+    """
+    Route to get all matches for a dog profile
+    """
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+
+    current_user = Authorize.get_jwt_subject()
+    current_profile = DogServices.get_one_profile(db, id=dog_id)
+
+    # Get all the profiles of dog matches for the current profile
+    profiles = await DogServices.get_all_dog_profiles(
+        db, exclude_id=dog_id
+    )
+
+    # Calculate the match score for each profile
+    # and create a dictionary with the score and profile data
+    each_matches = [
+        {
+            'score': await DogServices.match_dogs(
+                db, current_profile, profile
+            ), 'profile': profile
+        } for profile in profiles
+    ]
+    # Sort the matches in descending order by score
+    matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
+    if len(matches) == 0:
+        raise HTTPException(status_code=404, detail="No matches found")
+
+    # Return the top 20 matches to the user
+    return {'matches': matches[:20]}
+
+
+@dogProfile_router.get(
+    '/current_user/match_dog_by_breed/{dog_id}',
+    status_code=status.HTTP_200_OK,
+    response_model=Matches
 )
 async def match_same_breed(
     dog_id: int, db: Session = Depends(get_db),
     Authorize: AuthJWT = Depends()
 ):
     """
-    Route to get all the dogs of the same breed as the dog
-    with the dog_id
+    Route to get all matches of dogs of the same breed as the dog
     """
     try:
         Authorize.jwt_required()
@@ -270,47 +317,118 @@ async def match_same_breed(
         db, exclude_id=dog_id, breed=current_profile.breed
     )
 
-     # Calculate the match score for each profile
-     # and create a dictionary with the score and profile data
+    # Calculate the match score for each profile
+    # and create a dictionary with the score and profile data
     each_matches = [
         {
-            'score': await DogServices.match_dog_of_same_breed(
-                db, current_profile, p
-            ), 'profile': p
-        } for p in profiles
+            'score': await DogServices.match_dogs(
+                db, current_profile, profile
+            ), 'profile': profile
+        } for profile in profiles
     ]
-  # Sort the matches in descending order by score
+    # Sort the matches in descending order by score
     matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
+    if len(matches) == 0:
+        raise HTTPException(status_code=404, detail="No matches found")
 
-     # Return the top 10 matches to the user
-    return {'matches': matches[:10]}
+    # Return the top 20 matches to the user
+    return {'matches': matches[:20]}
 
 
-# @dogProfile_router.get(
-#     '/current_user/match_same_breed/{dog_id}', status_code=status.HTTP_200_OK
-# )
-# async def match_diff_breed(
-#     dog_id: int, db: Session = Depends(get_db), Authorize: AuthJWT = Depends()
-# ):
-#     """
-#     Route to get all the dogs of the different breed as the dog
-#     with the dog_id
-#     """
-#     try:
-#         Authorize.jwt_required()
+@dogProfile_router.get(
+    '/current_user/match_dog_by_relationship/{dog_id}',
+    status_code=status.HTTP_200_OK,
+    response_model=Matches
+)
+async def match_dog_by_relationship(
+    dog_id: int, db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends()
+):
+    """
+    Route to get all matches of dogs of the same relationship preference
+    and if the relationship preference is breeding partner,
+    the dog match should be opposite of the dog gender
+    """
+    try:
+        Authorize.jwt_required()
 
-#     except Exception as e:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail="invalid authorization"
-#         )
-#     current_user = Authorize.get_jwt_subject()
-#     current_profile = DogServices.get_one_profile(db, id=dog_id)
-#     profiles = await DogServices.get_all_dog_profiles(db, id != dog_id )
-#      # Calculate the match score for each profile and create a dictionary with the score and profile data
-#     each_matches = [{'score': await DogServices.match_same_breed(db, current_profile, p), 'profile': p} for p in profiles]
-#   # Sort the matches in descending order by score
-#     matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
 
-#      # Return the top 10 matches to the user
-#     return {'matches': matches[:10]}
+    current_user = Authorize.get_jwt_subject()
+    current_profile = DogServices.get_one_profile(db, id=dog_id)
+
+    # Get all the profiles of the relationship preference as the current dog
+    profiles = await DogServices.get_all_dog_profiles(
+        db, exclude_id=dog_id,
+        relationship_preferences=current_profile.relationship_preferences
+    )
+
+    # Calculate the match score for each profile
+    # and create a dictionary with the score and profile data
+    each_matches = [
+        {
+            'score': await DogServices.match_dogs(
+                db, current_profile, profile
+            ), 'profile': profile
+        } for profile in profiles
+    ]
+    # Sort the matches in descending order by score
+    matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
+    if len(matches) == 0:
+        raise HTTPException(status_code=404, detail="No matches found")
+
+    # Return the top 20 matches to the user
+    return {'matches': matches[:20]}
+
+
+@dogProfile_router.get(
+    '/current_user/match_dogs_by_location/{dog_id}',
+    status_code=status.HTTP_200_OK,
+    response_model=Matches
+)
+async def match_dogs_by_location(
+    dog_id: int, db: Session = Depends(get_db),
+    Authorize: AuthJWT = Depends()
+):
+    """
+    Route to get all matches for a dog based on location
+    """
+    try:
+        Authorize.jwt_required()
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="invalid authorization"
+        )
+
+    current_user = Authorize.get_jwt_subject()
+    current_profile = DogServices.get_one_profile(db, id=dog_id)
+
+    # Get all the profiles of dog matches for the
+    # current dog profile based on location
+    profiles = await DogServices.get_all_dog_profiles(
+        db, exclude_id=dog_id, city=current_profile.city,
+        state=current_profile.state, country=current_profile.country
+    )
+
+    # Calculate the match score for each profile
+    # and create a dictionary with the score and profile data
+    each_matches = [
+        {
+            'score': await DogServices.match_dogs(
+                db, current_profile, profile
+            ), 'profile': profile
+        } for profile in profiles
+    ]
+    # Sort the matches in descending order by score
+    matches = sorted(each_matches, key=lambda m: m['score'], reverse=True)
+    if len(matches) == 0:
+        raise HTTPException(status_code=404, detail="No matches found")
+
+    # Return the top 20 matches to the user
+    return {'matches': matches[:20]}

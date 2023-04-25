@@ -63,7 +63,7 @@ class DogServices:
         """
         query = db.query(DogProfile)
         if exclude_id:
-            query = query.filter(id != exclude_id)
+            query = query.filter(DogProfile.id != exclude_id)
 
         for key, value in kwargs.items():
             if hasattr(DogProfile, key):
@@ -156,7 +156,6 @@ class DogServices:
         db.refresh(dog)
         return ({"message": "Dog profile updated successfully"})
 
-
     async def delete_dog_profile(
         self, db: Session, current_user: str, dog_id: int
     ):
@@ -187,7 +186,7 @@ class DogServices:
         db.commit()
         return {"detail": "Deleted Dog profile successfully"}
 
-    async def match_dog_of_same_breed(self, db: Session, profile1, profile2):
+    async def match_dogs(self, db: Session, profile1, profile2):
         """ a matching function to compare two dogprofiles"""
         score = 0
         if profile1.breed == profile2.breed:
@@ -200,21 +199,12 @@ class DogServices:
             score += 5
         if profile1.state == profile2.state:
             score += 5
-        if profile1.relationship_preferences == profile2.relationship_preferences:
-            score += 5
-        return score
-
-    async def match_dog_of_diff_breed(self, db: Session, profile1, profile2):
-        """ a matching function to compare two dogprofiles"""
-        score = 0
-        if abs(profile1.age - profile2.age) <= 2:
-            score += 5
-        if profile1.gender != profile2.gender:
-            score += 5
-        if profile1.city == profile2.city:
-            score += 5
-        if profile1.state == profile2.state:
-            score += 5
-        if profile1.relationship_preferences == profile2.relationship_preferences:
-            score += 5
+        # if (
+        #     profile1.relationship_preferences == profile2.relationship_preferences
+        # ):
+        #     score += 5
+        if (profile1.relationship_preferences == "Breedding Partner") and \
+                (profile2.relationship_preferences == "Breedding Partner"):
+            if profile1.gender != profile2.gender:
+                score += 5
         return score
