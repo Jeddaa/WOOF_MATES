@@ -5,7 +5,7 @@ import './Account.css'
 
 const Login = () => {
 const [formValues, setFormValues] = useState({
-username: '',
+email: '',
 password: ''
 });
 
@@ -13,8 +13,10 @@ const handleChange = e => {
 setFormValues({ ...formValues, [e.target.name]: e.target.value });
 };
 
+const URL = 'https://woof-mates.onrender.com/docs#/User%20Routes/create_user_auth_signup_post';
+
 const handleSubmit = () => {
-fetch('/login', {
+fetch(URL, {
 method: 'POST',
 headers: {
 'Content-Type': 'application/json'
@@ -23,8 +25,11 @@ body: JSON.stringify(formValues)
 });
 };
 
+
+
+
 const validateForm = () => {
-return formValues.username && formValues.password;
+return formValues.email && formValues.password;
 }
 
 return (
@@ -37,8 +42,8 @@ return (
 </label>
 <br />
 <label>
-Username:
-<input name="username" value={formValues.username} onChange={handleChange} />
+Email:
+<input name="email" value={formValues.email} onChange={handleChange} />
 </label>
 <label>
 Password:
