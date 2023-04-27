@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-function ImageUploader() {
+function ImageUploader(props) {
   const inputRef = useRef(null);
 
   const handleFileSelect = (event) => {
@@ -22,12 +22,12 @@ function ImageUploader() {
         type="file"
         multiple
         accept="image/*"
-        style={{ display: 'none' }}
+        style={{ display: 'none', backgroundColor: {props}}}
         ref={inputRef}
         onChange={handleFileSelect}
       />
       {/* Button to trigger the hidden input field */}
-      <button onClick={handleButtonClick} className="image_input">Add Images</button>
+      <button onClick={handleButtonClick} className='image_upload'>Add Images</button>
       
     </div>
   );
