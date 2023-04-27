@@ -7,7 +7,7 @@ import './Account.css';
 
 const Register = () => {
   const [formValues, setFormValues] = useState({
-    profile_image: '',
+    profile_image: null,
     firstName: '',
     lastName: '',
     email: '',
@@ -15,11 +15,14 @@ const Register = () => {
   });
 
   const handleChange = e => {
-    setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    if (e.target.name === 'profile_image') {
+      setFormValues({ ...formValues, [e.target.name]: e.target.files[0] });
+    } else {
+      setFormValues({ ...formValues, [e.target.name]: e.target.value });
+    }
   };
 
   const URL = 'https://woof-mates.onrender.com/auth/signup';
-  
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -70,7 +73,7 @@ const Register = () => {
             type="file"
             name="profile_image"
             alt="profileImage"
-            value={formValues.profile_image}
+            formEncType='multipart/form-data'
             onChange={handleChange}
           />
           <label>First Name:</label>
@@ -93,3 +96,4 @@ const Register = () => {
 };
 
 export default Register;
+
