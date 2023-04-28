@@ -1,10 +1,18 @@
+import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCaretDown, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { AuthContext } from '../Account/AuthProvider';
 
 function ProfileHeader() {
+  const { logout } = useContext(AuthContext);
+
   const handleMenuClick = () => {
     const menu = document.querySelector('.profile-header-menu');
     menu.classList.toggle('show');
+  };
+
+  const handleLogoutClick = () => {
+    logout();
   };
 
   return (
@@ -28,7 +36,7 @@ function ProfileHeader() {
           <ul className="profile-header-menu">
             <li><a href="#">My Profile</a></li>
             <li><a href="">Settings</a></li>
-            <li><a href="/">Logout</a></li>
+            <li><a href="/" onClick={handleLogoutClick}>Logout</a></li>
           </ul>
         </div>
       </div>
@@ -37,4 +45,3 @@ function ProfileHeader() {
 }
 
 export default ProfileHeader;
-
