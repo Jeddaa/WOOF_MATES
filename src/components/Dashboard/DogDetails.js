@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './DogDetails.css'; // import the styling for this component
+import './css/DogDetails.css'; // import the styling for this component
 
 const DogDetails = ({ dogs, matches }) => {
   const [showMatches, setShowMatches] = useState(false);
