@@ -16,7 +16,7 @@ export default function Hero() {
           </h2>
 
           <Link
-            to="/compress"
+            to="/register"
             className="btn button-primary bg-black text-white rounded-pill px-4 py-2  mt-2"
             id="btnn"
           >
