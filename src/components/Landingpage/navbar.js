@@ -1,6 +1,5 @@
 // import Link from 'react'
-// import Logo from "./../../img/logo.webp";
-import Logo from "./../../img/WoofMates Logo.webp";
+import Logo from "./../../img/WoofMatesLogo.webp";
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 
@@ -80,16 +79,16 @@ export default function Navbar() {
                 Contact Us
               </NavLink>
             </li>
-             <li>
-            <NavLink
-              to="/login"
-              className="text-decoration-none nav_link"
-              id="nav_link"
-              activeClassName="active"
-            >
-              Dashboard
-            </NavLink>
-           </li>
+            <li>
+              <NavLink
+                to="/login"
+                className="text-decoration-none nav_link"
+                id="nav_link"
+                activeClassName="active"
+              >
+                Dashboard
+              </NavLink>
+            </li>
           </ul>
         </div>
 
@@ -127,15 +126,15 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-            <Link
-              to="/login"
-              className="text-decoration-none nav_link"
-              id="nav_link"
-              activeClassName="active"
-            >
-              Dashboard
-            </Link>
-           </li>
+              <Link
+                to="/login"
+                className="text-decoration-none nav_link"
+                id="nav_link"
+                activeClassName="active"
+              >
+                Dashboard
+              </Link>
+            </li>
           </ul>
 
           <Link
@@ -145,7 +144,6 @@ export default function Navbar() {
           >
             Sign-in
           </Link>
-
         </div>
       ) : (
         ""

@@ -90,7 +90,6 @@ const Register = () => {
           </h4>
         </form>
       </div>
-      <Footer />
     </div>
   );
 };

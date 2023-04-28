@@ -12,6 +12,7 @@ const DogDetails = ({ dogs, matches }) => {
 
   return (
     <div className="profile-info">
+      <a href='/dogprofile'><button> Create New Dog Profile</button></a>
       <h2>Dog Details</h2>
       {dogs.map((dog) => (
         <div key={dog.id}>

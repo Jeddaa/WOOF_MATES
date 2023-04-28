@@ -71,7 +71,6 @@ const Login = () => {
           </h4>
         </form>
       </div>
-      <Footer />
     </div>
   );
 };

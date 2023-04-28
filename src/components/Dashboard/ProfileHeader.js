@@ -35,7 +35,6 @@ function ProfileHeader() {
           </button>
           <ul className="profile-header-menu">
             <li><a href="#">My Profile</a></li>
-            <li><a href="">Settings</a></li>
             <li><a href="/" onClick={handleLogoutClick}>Logout</a></li>
           </ul>
         </div>

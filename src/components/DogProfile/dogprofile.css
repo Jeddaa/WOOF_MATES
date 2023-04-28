@@ -1,0 +1,208 @@
+/* General Styling */
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Header */
+  
+  .header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+  }
+  
+  .header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  /* Dog Profile Form */
+  
+  .dog-profile-container {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  input[type='text'],
+  input[type='number'],
+  textarea, select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 5px;
+  }
+  
+  input[type='submit'] {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  input[type='submit']:hover {
+    background-color: #0062cc;
+  }
+  
+  select {
+    appearance: none;
+    padding-right: 2rem;
+    background-image: url('https://cdn2.iconfinder.com/data/icons/flat-ui-icons-24-px/24/arrow-down-b-24-512.png');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 1rem 1rem;
+  }
+  
+  select:focus {
+    outline: none;
+    border-color: #0077cc;
+  }
+  
+  option:first-of-type {
+    color: #ccc;
+  }
+
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+  .success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 5px;
+  }
+  
+/* Relationship Preference Select Styles */
+.relationshipPref {
+    position: relative;
+  }
+  
+  .relationshipPref::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.5rem 0.5rem 0 0.5rem;
+    border-color: #0077cc transparent transparent transparent;
+    pointer-events: none;
+  }
+  
+  /* Breed Select Styles */
+  .select--breed {
+    position: relative;
+  }
+  
+  .select--breed::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0.5rem 0.5rem 0 0.5rem;
+    border-color: #0077cc transparent transparent transparent;
+    pointer-events: none;
+  }
+
+  /* .image-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .image-wrapper {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .dog-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 30%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  .image-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%;
+    height: 30%;
+    opacity: 0;
+    cursor: pointer;
+  } */
+  
+  /* Footer */
+  
+  .footer {
+    background-color: #f5f5f5;
+    color: #666;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .footer p {
+    margin: 0;
+  }
+  
+  /* Responsive Styling */
+  
+  @media screen and (max-width: 768px) {
+    .dog-image {
+      flex-basis: calc(50% - 10px);
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .dog-image {
+      flex-basis: 100%;
+    }
+  }
+  
