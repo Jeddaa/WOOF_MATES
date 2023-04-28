@@ -1,0 +1,79 @@
+.Register {
+    width: 50%;
+    margin: 3rem auto;
+    }
+    
+    h2 {
+    margin-bottom: 2rem;
+    }
+    
+    .form-container {
+        background: #fff;
+        margin-top: 100px;
+        margin-left: 10%;
+        margin-right: 10%;
+        align-items: center;
+    }
+    form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-shadow: 0 1px 3px 0.1px rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    }
+    
+    .form-group {
+    margin-bottom: 1rem;
+    }
+    
+    input,
+    select,
+    textarea {
+    width: 50%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    display: block;
+    margin-bottom: 20px;
+
+    }
+
+    a{
+        text-decoration: none;
+        color: #EC6433;
+    }
+    
+    button {
+    width: 25%;
+    padding: 0.75rem;
+    background: #EC6433;
+    border: none;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: #fff;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    
+    /* transition: all 0.2s ease-in-out;
+    &:hover {
+    background: #15853B;
+    }
+    &:disabled {
+    background: #AAA;
+    cursor: not-allowed;
+    } */
+    }
+
+
+    
+    @media (min-width: 576px) {
+    .Register {
+    width: 70%;
+    }
+    }
+
+
+   

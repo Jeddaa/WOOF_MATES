@@ -1,0 +1,58 @@
+/* chat */
+
+/* .chattingArea {
+
+} */
+
+.headerr {
+display: flex;
+justify-content: space-between;
+align-items: center;
+background-color: lightgray;
+position: relative;
+}
+
+.chat_pfp {
+  width: 3.5em;
+  margin: 1em 0.5em 0.5em 1em;
+}
+
+.header_details {
+  margin: 1em;
+}
+
+ion-icon {
+  margin-right: 0.5em;
+  font-size: 24px;
+}
+
+.last_icon {
+ border-left: 1px solid gray;
+ padding-right: 0 !important;
+}
+
+.chat_footer {
+  position: fixed;
+  width: 100%;
+  background-color: lightgray;
+  bottom: 0;
+}
+
+.typing_area {
+   border: none;
+  margin: 0.5em;
+  white-space: wrap;
+  /* height: 30px; */
+  width: 80%;
+  resize: none;
+}
+
+
+/* .chat_footer  {
+
+} */
+
+
+.chat_footer ion-icon {
+  margin: 0.5em;
+}
