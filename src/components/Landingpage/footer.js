@@ -1,9 +1,11 @@
 import Logo from "./../../img/logo.webp";
 import { Link } from "react-router-dom";
+import Map from "./../../img/map.jpg";
 
 export default function Footer() {
   return (
     <div className="footer-bg mb-0">
+      <img src={Map} alt="" className="map" />
       <div className="container footer_content">
         <Link to="/">
           <img src={Logo} alt="" className="logo1 mt-5 mb-3" />
@@ -35,7 +37,7 @@ export default function Footer() {
             </Link>
           </ul>
           <hr />
-          <p className="">© 2023 Ayo Jedda Vic </p>
+          <p className="">©woofmates 2023</p>
         </div>
       </div>
     </div>
