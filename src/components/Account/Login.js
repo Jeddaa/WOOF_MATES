@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import qs from 'qs';
+import { AuthContext } from './AuthProvider';
 import Navbar from '../Landingpage/navbar';
 import Footer from '../Landingpage/footer';
 import './Account.css';
@@ -12,28 +11,22 @@ const Login = () => {
     password: '',
   });
 
+  const { login } = useContext(AuthContext);
+
   const handleChange = e => {
     setFormValues({ ...formValues, [e.target.name]: e.target.value });
   };
-
-  const URL = 'https://woof-mates.onrender.com/auth/login';
 
   const handleSubmit = async e => {
     e.preventDefault();
 
     try {
-      const formData = qs.stringify(formValues);
-      const response = await axios.post(URL, formData, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      });
-      if (response.status === 200) {
-        // Store the access token in local storage
-        localStorage.setItem('access_token', response.data.access_token);
-
+      const success = await login(formValues.email, formValues.password);
+      if (success) {
         // Redirect to home feed
-        window.location.href = '/homefeed';
+        window.location.href = '/profile';
+      } else {
+        alert('Failed to login. Please try again.');
       }
     } catch (error) {
       // Display error message to user
@@ -97,30 +90,10 @@ export default Login;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // import React, { useState } from 'react';
 // import { Link } from 'react-router-dom';
 // import axios from 'axios';
+// import qs from 'qs';
 // import Navbar from '../Landingpage/navbar';
 // import Footer from '../Landingpage/footer';
 // import './Account.css';
@@ -141,10 +114,18 @@ export default Login;
 //     e.preventDefault();
 
 //     try {
-//       const response = await axios.post(URL, formValues);
+//       const formData = qs.stringify(formValues);
+//       const response = await axios.post(URL, formData, {
+//         headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded',
+//         },
+//       });
 //       if (response.status === 200) {
+//         // Store the access token in local storage
+//         localStorage.setItem('access_token', response.data.access_token);
+
 //         // Redirect to home feed
-//         window.location.href = '/homefeed';
+//         window.location.href = '/profile';
 //       }
 //     } catch (error) {
 //       // Display error message to user
