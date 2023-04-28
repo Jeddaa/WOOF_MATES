@@ -1,0 +1,12 @@
+.profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .photo {
+    margin-right: 20px;
+  }
+  
+  .info {
+    flex-grow: 1;
+  }
