@@ -191,7 +191,7 @@ async def update_dog_profile(
             detail="Dog Image shouldn't be greater than 1MB"
         )
 
-    if dog_image_2 and len(dog_image_3) > 1000000:
+    if dog_image_3 and len(dog_image_3) > 1000000:
         raise HTTPException(
             status_code=400,
             detail="Dog Image shouldn't be greater than 1MB"
