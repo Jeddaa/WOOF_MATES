@@ -1,46 +1,3 @@
-# # This is a basic workflow that is manually triggered
-
-# name: WOOF MATES
-
-# # Controls when the action will run. Workflow runs when manually triggered using the UI
-# # or API.
-# on:
-#   push:
-#     branches:
-#       - DEV
-
-# # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# jobs:
-#   # This workflow contains a single job called "build"
-#   build:
-#     # The type of runner that the job will run on
-#     runs-on: ubuntu-latest
-
-#     # Steps represent a sequence of tasks that will be executed as part of the job
-#     steps:
-#     # Runs a single command using the runners shell
-#     - name: Checkout code
-#       uses: actions/checkout@v2
-    
-#     - name: Set up Python
-#       uses: actions/setup-python@v2
-#       with:
-#         python-version: '3.11'
-    
-#     - name: Load .env Variables
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       run: echo "GITHUB_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
-    
-#     - name: Install dependencies
-#       run: |
-#         python -m pip install --upgrade pip
-#         pip install -r requirements.txt
-    
-#     - name: Run Your Python Script
-#       run: python main.py
-
-
 name: CI/CD for Woof Mates
 
 on:
@@ -75,4 +32,4 @@ jobs:
         pip install -r requirements.txt
       
     - name: Run FastAPI app
-      run: python backend/main.py
+      run: nohup python backend/main.py > app.log 2>&1 &
