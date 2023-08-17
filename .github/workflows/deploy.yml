@@ -33,3 +33,11 @@ jobs:
       
     - name: Run FastAPI app
       run: nohup python backend/main.py > app.log 2>&1 &
+
+    - name: Print Success Message
+      run: |
+        echo "FastAPI app started successfully!"
+        
+    - name: Print App Logs
+      run: |
+        cat app.log
