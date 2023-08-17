@@ -1,10 +1,7 @@
-<<<<<<< HEAD
 venv/
 .env
 __pycache__/
 woofy
-=======
 __pycache__
 venv
 .env
->>>>>>> d0ff77e2a63a9f3d4233665263bbabe61fa1aebb

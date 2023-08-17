@@ -1,4 +1,4 @@
-#!/root/WOOF_MATES/woofy/bin/python3
+#!/root/WOOF_MATES/woofy/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
