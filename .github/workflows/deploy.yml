@@ -1,0 +1,43 @@
+name: CI/CD for Woof Mates
+
+on:
+  push:
+    branches:
+      - DEV
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    env:  # Define the environment variables used in the workflow
+      SQLALCHEMY_DATABASE_URL: ${{ secrets.SQLALCHEMY_DATABASE_URL }}
+      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_API_SECRET_KEY: ${{ secrets.CLOUDINARY_API_SECRET_KEY }}
+      AUTHJWT_SECRET_KEY: ${{ secrets.AUTHJWT_SECRET_KEY }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+      
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+      
+    - name: Run FastAPI app
+      run: nohup python backend/main.py > app.log 2>&1 &
+
+    - name: Print Success Message
+      run: |
+        echo "FastAPI app started successfully!"
+        
+    - name: Print App Logs
+      run: |
+        cat app.log
