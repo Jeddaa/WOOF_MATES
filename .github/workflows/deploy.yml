@@ -75,4 +75,4 @@ jobs:
         pip install -r requirements.txt
       
     - name: Run FastAPI app
-      run: python main.py
+      run: python backend/main.py
